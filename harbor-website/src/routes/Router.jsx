@@ -7,5 +7,5 @@ export const Router = createBrowserRouter([
         element:(
             <HomePage/>
         )
-    }
+    },
 ])
