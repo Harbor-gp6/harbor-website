@@ -1,7 +1,9 @@
+import FirstSection from './components/FirstSection'
+
 export default function HomePage() {
     return (
         <div>
-            <h1>TESTANDO</h1>
+            <FirstSection />
         </div>
     )
 }
