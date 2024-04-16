@@ -15,8 +15,12 @@ export default {
       colors: {
         'blue': "#2920F5",
         'blueEnd': "#7373FF"
+      },
+      backgroundImage: {
+        'chamada': "url('src/assets/div.cta-section.svg')"
       }
     },
+    
   },
   plugins: [
     flowbite.plugin()
