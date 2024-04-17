@@ -6,6 +6,7 @@ const perguntas = ["Quais os planos e preços da solução? Existe versão de te
                     "Consigo verificar o fluxo financeiro e fazer relatórios em tempo real?",
                     "Consigo visualizar o cronograma e a agenda de todos os profissionais?"]
 
+const respostas = ["teste", "teste", "teste", "teste", "teste"]
 
 export function FaqSection() {
     return (
@@ -16,7 +17,7 @@ export function FaqSection() {
                     <h1 className="text-5xl text-gray-500">FAQ</h1>
                 </div>
                 <div>
-                    {perguntas.map((pergunta, index) => <FaqAccordion key={index} pergunta={pergunta} reposta={"teste"}/>)}
+                    {perguntas.map((pergunta, index) => <FaqAccordion key={index} pergunta={pergunta} reposta={respostas[index]}/>)}
                 </div>
             </div>
         </>
