@@ -17,6 +17,7 @@ export function FooterLinks({ linkTitle, linkPaths }) {
             <Typography
               color="black"
               textPosition="left"
+              textSize="base"
             >
               {path.title}
             </Typography>
