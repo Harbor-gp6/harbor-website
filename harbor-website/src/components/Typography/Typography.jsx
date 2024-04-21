@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
-export function Typography({ children, color }) {
+export function Typography({ children, color, textPosition, textSize }) {
   return (
-    <h6 className={`text-xl text-${color || 'white'} max-w-screen-md text-center`}>
+    <p className={`text-${textSize || 'xl'} text-${color || 'white'} max-w-screen-md text-${textPosition || 'center'}`}>
       {children}
-    </h6>
+    </p>
   )
 }

@@ -25,7 +25,7 @@ export default function FirstSection() {
         </Button>
 
         <Wave
-          amplitude={30}
+          amplitude={40}
           className='h-20'
         />
       </div>
