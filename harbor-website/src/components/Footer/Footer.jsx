@@ -7,9 +7,9 @@ import { FooterLinks } from './components/FooterLinks'
 export function Footer() {
   return (
     <div className='w-screen h-fit bg-white justify-center flex p-6'>
-      <Container className="flex" maxWidth="xl">
+      <Container className="flex justify-evenly" maxWidth="2xl">
         <div className='flex w-full justify-between items-center'>
-          <div className='h-full w-full'>
+          <div className='h-full w-full flex items-center justify-center'>
             <a href="/" className='w-fit'>
               <img src="/images/logos/harborLogoAzul.svg" alt="Logo Harbor Caravela" className='h-full w-fit object-cover' />
             </a>
