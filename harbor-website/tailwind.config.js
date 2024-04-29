@@ -14,13 +14,14 @@ export default {
     extend: {
       colors: {
         'blue': "#2920F5",
-        'blueEnd': "#7373FF"
+        'blueEnd': "#7373FF",
+        'body': "#838383"
       },
       backgroundImage: {
         'chamada': "url('src/assets/div.cta-section.svg')"
       }
     },
-    
+
   },
   plugins: [
     flowbite.plugin()

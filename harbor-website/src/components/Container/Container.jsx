@@ -1,6 +1,6 @@
-/* eslint-disable react/prop-types */
 import clsx from 'clsx'
 
+// eslint-disable-next-line react/prop-types
 export function Container ({children, className, maxWidth, padding = 'px-4'}) {
   return (
     <div
