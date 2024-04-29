@@ -6,16 +6,18 @@ import { Typography } from '../../components/Typography/Typography'
 import { Link } from 'react-router-dom'
 import { useFormik } from 'formik'
 
-export default function Login() {
+export default function Register() {
 
   const formik = useFormik({
     initialValues: {
+      name: '',
       email: '',
-      password: ''
+      phone: ''
     },
     onSubmit: (values, { resetForm }) => {
       console.log(values.email)
-      console.log(values.password)
+      console.log(values.name)
+      console.log(values.phone)
       resetForm()
     }
   })
@@ -38,7 +40,7 @@ export default function Login() {
             textPosition="left"
             className="whitespace-nowrap"
           >
-            Não possui conta? <Link to={'/cadastrar'}><span className='text-blueEnd'> Comece por aqui</span></Link>
+            Já possui conta? <Link to={'/login'}><span className='text-blueEnd'> Comece por aqui</span></Link>
           </Typography>
         </div>
 
@@ -46,24 +48,34 @@ export default function Login() {
           <div className='flex flex-col gap-4'>
             <div className='flex flex-col gap-2'>
               <Typography>
-                Email:
+                Razão Social:
               </Typography>
               <FormInput
-                placeholder="Insira seu email"
+                placeholder="Insira o nome da empresa"
+                type='text'
+                name='name'
+                onChange={formik.handleChange}
+                value={formik.values.phone}
+              />
+              <Typography>
+                Email Comercial:
+              </Typography>
+              <FormInput
+                placeholder="Insira seu email comercial"
                 type='email'
                 name='email'
                 onChange={formik.handleChange}
                 value={formik.values.email}
               />
               <Typography>
-                Senha:
+                Telefone comercial:
               </Typography>
               <FormInput
-                placeholder="Insira sua senha"
-                type='password'
-                name='password'
+                placeholder="Insira o número de telefone comercial"
+                type='text'
+                name='phone'
                 onChange={formik.handleChange}
-                value={formik.values.password}
+                value={formik.values.phone}
               />
             </div>
             <Button

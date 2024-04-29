@@ -6,7 +6,7 @@ import { Typography } from '../../../components/Typography/Typography'
 
 export default function AdvantagesSection() {
   return (
-    <div className='w-screen flex items-center justify-center bg-white py-6'>
+    <div className='w-screen flex items-center h-screen justify-center bg-white py-6'>
       <Container maxWidth="lg" >
         <div className='w-full flex flex-col gap-6 items-center justify-center'>
         <Heading
@@ -19,7 +19,7 @@ export default function AdvantagesSection() {
           {advantagesInfos.map((advantage, index) => (
             <div
               key={index}
-              className={`flex flex-col gap-2 w-60 h-36 p-4 ${advantage.hasBorder ? 'border-r border-black' : 'border-none'}`}
+              className={`flex flex-col items-center justify-center gap-2 w-60 h-36 p-4 ${advantage.hasBorder ? 'border-r border-black' : 'border-none'}`}
             >
               <Heading
                 color="black"
