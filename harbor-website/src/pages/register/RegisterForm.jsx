@@ -7,21 +7,26 @@ import { Heading } from '../../components/Heading/Heading'
 import { useSearchParams } from 'react-router-dom'
 import { FormInput } from '../../components/FormInput/FormInput'
 import { useFormik } from 'formik'
+import axios from 'axios'
 import { Button, Progress } from 'flowbite-react'
 
 export default function RegisterForm() {
   const [formInputs, setFormInputs] = useState('personalData')
   const [searchParams] = useSearchParams()
   const nameValue = searchParams.get('nome')
+  const surnameValue = searchParams.get('sobrenome')
   const emailValue = searchParams.get('email')
   const phoneValue = searchParams.get('tel')
 
   const formik = useFormik({
     initialValues: {
       name: nameValue,
+      surname: surnameValue,
       cpf: '',
+      role: '',
       email: emailValue,
       phone: phoneValue,
+      password: '',
       corpName: '',
       fantasyName: '',
       cnpj: '',
@@ -29,56 +34,91 @@ export default function RegisterForm() {
       corpCep: '',
       corpState: '',
       corpAddress: '',
+      neighborhood: '',
+      corpCity: '',
       corpNumber: '',
-      corpComplement: '',
+      corpComplement: ''
     },
     onSubmit: (values, { resetForm }) => {
-      console.log(values.email)
-      console.log(values.name)
-      console.log(values.phone)
-      resetForm()
+      axios.post('http://localhost:8080/prestadores', {
+        nome: values.name,
+        sobrenome: values.surname,
+        telefone: values.phone,
+        cpf: values.cpf,
+        email: values.email,
+        senha: values.password,
+        cargo: {
+          nomeCargo: values.role
+        },
+        empresa: {
+          razaoSocial: values.corpName,
+          nomeFantasia: values.fantasyName,
+          cnpj: values.cnpj,
+          endereco: {
+            bairro: values.neighborhood,
+            logradouro: values.corpAddress,
+            cidade: values.corpCity,
+            estado: values.corpState,
+            numero: values.corpNumber,
+            cep: values.corpCep,
+            complemento: values.corpComplement
+          }
+        }
+      }, {
+        headers: {
+          Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGRvZS5jb20iLCJpYXQiOjE3MTQ2MDM5MjcsImV4cCI6MTcxODIwMzkyN30.H64q4lwNVYtB3j0ccj7BJXPzVYhgKs5Hi5MIHU8eKJgapCVk44Or89aQVSU7b16UtpZJsDt-JrmoR_yPhbQoPQ'
+        }
+      }).then(() => {
+        alert("Cadastro realizado com sucesso")
+        window.location.href = '/login'
+        resetForm()
+      }).catch((err) => {
+        alert(err)
+      })
     }
   })
 
   return (
     <div className='w-screen h-screen flex'>
-      <SideNav>
-        <button
-          onClick={() => setFormInputs('personalData')}
-          className={`flex p-4 rounded-l-xl gap-4  items-center w-full ml-4 ${formInputs === 'personalData' ? 'bg-blueEnd' : 'bg-white'}`}
-        >
-          <CircleUserRound className={`h-5 w-5 ${formInputs === 'personalData' ? 'text-white' : 'text-body'}`} />
-          <Typography color={formInputs === 'personalData' ? 'white' : 'body'}>
-            Dados Pessoais
-          </Typography>
-        </button>
+      <div className='h-full'>
+        <SideNav>
+          <button
+            onClick={() => setFormInputs('personalData')}
+            className={`flex p-4 rounded-l-xl gap-4  items-center w-full ml-4 ${formInputs === 'personalData' ? 'bg-blueEnd' : 'bg-white'}`}
+          >
+            <CircleUserRound className={`h-5 w-5 ${formInputs === 'personalData' ? 'text-white' : 'text-body'}`} />
+            <Typography color={formInputs === 'personalData' ? 'white' : 'body'}>
+              Dados Pessoais
+            </Typography>
+          </button>
 
-        <button
-          onClick={() => setFormInputs('enterpriseForm')}
-          className={`flex p-4 rounded-l-xl gap-4 items-center w-full ml-4 ${formInputs === 'enterpriseForm' ? 'bg-blueEnd' : 'bg-white'}`}
-        >
-          <Building2 className={`h-5 w-5 ${formInputs === 'enterpriseForm' ? 'text-white' : 'text-body'}`} />
-          <Typography color={formInputs === 'enterpriseForm' ? 'white' : 'body'}>
-            Dados da Empresa
-          </Typography>
-        </button>
+          <button
+            onClick={() => setFormInputs('enterpriseForm')}
+            className={`flex p-4 rounded-l-xl gap-4 items-center w-full ml-4 ${formInputs === 'enterpriseForm' ? 'bg-blueEnd' : 'bg-white'}`}
+          >
+            <Building2 className={`h-5 w-5 ${formInputs === 'enterpriseForm' ? 'text-white' : 'text-body'}`} />
+            <Typography color={formInputs === 'enterpriseForm' ? 'white' : 'body'}>
+              Dados da Empresa
+            </Typography>
+          </button>
 
-        <button
-          onClick={() => setFormInputs('corpAddressForm')}
-          className={`flex p-4 rounded-l-xl gap-4 items-center w-full ml-4 ${formInputs === 'corpAddressForm' ? 'bg-blueEnd' : 'bg-white'}`}
-        >
-          <MapPin className={`h-5 w-5 ${formInputs === 'corpAddressForm' ? 'text-white' : 'text-body'}`} />
-          <Typography color={formInputs === 'corpAddressForm' ? 'white' : 'body'}>
-            Endereço Comercial
-          </Typography>
-        </button>
-      </SideNav>
+          <button
+            onClick={() => setFormInputs('corpAddressForm')}
+            className={`flex p-4 rounded-l-xl gap-4 items-center w-full ml-4 ${formInputs === 'corpAddressForm' ? 'bg-blueEnd' : 'bg-white'}`}
+          >
+            <MapPin className={`h-5 w-5 ${formInputs === 'corpAddressForm' ? 'text-white' : 'text-body'}`} />
+            <Typography color={formInputs === 'corpAddressForm' ? 'white' : 'body'}>
+              Endereço Comercial
+            </Typography>
+          </button>
+        </SideNav>
+      </div>
 
       <div className='flex flex-col h-full w-full'>
         <div className='w-full min-h-full bg-gradient-to-b from-transparent to-white flex items-center justify-center relative'>
           <img src="/images/graphs/grafismos.svg" alt="Grafismos" className='absolute top-0 z-0 bg-gradient-to-b from-transparent to-white' />
 
-          <Container maxWidth="md" className="flex flex-col gap-4 z-10">
+          <Container maxWidth="md" className="flex flex-col h-full gap-4 z-10">
             <form onSubmit={formik.handleSubmit}>
               {formInputs === 'personalData' && (
                 <div className='flex flex-col gap-4'>
@@ -117,6 +157,16 @@ export default function RegisterForm() {
                       value={formik.values.name}
                     />
                     <Typography color="black" textPosition='left'>
+                      Sobrenome:
+                    </Typography>
+                    <FormInput
+                      placeholder="Insira o seu sobrenome"
+                      type='text'
+                      name='surname'
+                      onChange={formik.handleChange}
+                      value={formik.values.surname}
+                    />
+                    <Typography color="black" textPosition='left'>
                       CPF:
                     </Typography>
                     <FormInput
@@ -125,6 +175,26 @@ export default function RegisterForm() {
                       name='cpf'
                       onChange={formik.handleChange}
                       value={formik.values.cpf}
+                    />
+                    <Typography color="black" textPosition='left'>
+                      Telefone:
+                    </Typography>
+                    <FormInput
+                      placeholder="Insira o seu número de telefone"
+                      type='text'
+                      name='phone'
+                      onChange={formik.handleChange}
+                      value={formik.values.phone}
+                    />
+                    <Typography color="black" textPosition='left'>
+                      Cargo:
+                    </Typography>
+                    <FormInput
+                      placeholder="Insira seu cargo"
+                      type='text'
+                      name='role'
+                      onChange={formik.handleChange}
+                      value={formik.values.role}
                     />
                     <Typography color="black" textPosition='left'>
                       Email:
@@ -137,14 +207,14 @@ export default function RegisterForm() {
                       value={formik.values.email}
                     />
                     <Typography color="black" textPosition='left'>
-                      Telefone comercial:
+                      Senha:
                     </Typography>
                     <FormInput
-                      placeholder="Insira o seu número de telefone"
-                      type='text'
-                      name='phone'
+                      placeholder="Crie sua senha"
+                      type='password'
+                      name='password'
                       onChange={formik.handleChange}
-                      value={formik.values.phone}
+                      value={formik.values.password}
                     />
                   </div>
                   <div className='flex flex-col w-full'>
@@ -161,8 +231,8 @@ export default function RegisterForm() {
                 </div>
               )}
               {formInputs === 'enterpriseForm' && (
-                <div className='flex flex-col gap-4'>
-                  <div className='flex flex-col'>
+                <div className='flex flex-col gap-4 h-full'>
+                  <div className='flex flex-col h-full'>
                     <Heading
                       color='black'
                       size={5}
@@ -234,8 +304,8 @@ export default function RegisterForm() {
                 </div>
               )}
               {formInputs === 'corpAddressForm' && (
-                <div className='flex flex-col gap-4'>
-                  <div className='flex flex-col'>
+                <div className='flex flex-col gap-4 h-full'>
+                  <div className='flex flex-col h-full'>
                     <Heading
                       color='black'
                       size={5}
@@ -291,6 +361,26 @@ export default function RegisterForm() {
                       name='corpNumber'
                       onChange={formik.handleChange}
                       value={formik.values.corpNumber}
+                    />
+                    <Typography color='black' textPosition='left'>
+                      Bairro:
+                    </Typography>
+                    <FormInput
+                      placeholder="Insira o bairro da empresa"
+                      type='text'
+                      name='neighborhood'
+                      onChange={formik.handleChange}
+                      value={formik.values.neighborhood}
+                    />
+                    <Typography color='black' textPosition='left'>
+                      Cidade:
+                    </Typography>
+                    <FormInput
+                      placeholder="Insira a cidade da empresa"
+                      type='text'
+                      name='corpCity'
+                      onChange={formik.handleChange}
+                      value={formik.values.corpCity}
                     />
                     <Typography color='black' textPosition='left'>
                       Complemento:

@@ -10,11 +10,12 @@ export default function Register() {
   const formik = useFormik({
     initialValues: {
       name: '',
+      surname: '',
       email: '',
       phone: '',
     },
     onSubmit: (values, { resetForm }) => {
-      const url = `/cadastro?nome=${values.name}&email=${values.email}&tel=${values.phone}`
+      const url = `/cadastro?nome=${values.name}&sobrenome=${values.surname}&email=${values.email}&tel=${values.phone}`
       window.location.href = url
       resetForm()
     }
@@ -54,6 +55,16 @@ export default function Register() {
                   name='name'
                   onChange={formik.handleChange}
                   value={formik.values.name}
+                />
+                <Typography>
+                  Sobrenome:
+                </Typography>
+                <FormInput
+                  placeholder="Insira seu sobrenome"
+                  type='text'
+                  name='surname'
+                  onChange={formik.handleChange}
+                  value={formik.values.surname}
                 />
                 <Typography>
                   Email:
