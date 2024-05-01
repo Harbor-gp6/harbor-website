@@ -5,6 +5,8 @@ import { Heading } from '../../components/Heading/Heading'
 import { Typography } from '../../components/Typography/Typography'
 import { Link } from 'react-router-dom'
 import { useFormik } from 'formik'
+import * as yup from 'yup'
+import axios from 'axios'
 
 export default function Login() {
 
@@ -13,9 +15,19 @@ export default function Login() {
       email: '',
       password: ''
     },
+    validationSchema: yup.object().shape({
+      email: yup.string().email('Insira um E-mail válido').required('Insira um E-mail'),
+      password: yup.string().min(6,'A senha deve ter no mínimo 6 caracteres').required('Insira sua senha')
+    }),
     onSubmit: (values, { resetForm }) => {
-      console.log(values.email)
-      console.log(values.password)
+      axios.post('http://localhost:8080/usuarios/login', {
+        email: values.email,
+        senha: values.password
+      }).then((response) => {
+        console.log(response.data)
+      }).catch((err) => {
+        alert(err)
+      })
       resetForm()
     }
   })
@@ -55,6 +67,11 @@ export default function Login() {
                 onChange={formik.handleChange}
                 value={formik.values.email}
               />
+              {formik.touched.email && formik.errors.email && (
+                <Typography color="red-500">
+                  {formik.errors.email}
+                </Typography>
+              )}
               <Typography>
                 Senha:
               </Typography>
@@ -65,6 +82,11 @@ export default function Login() {
                 onChange={formik.handleChange}
                 value={formik.values.password}
               />
+              {formik.touched.password && formik.errors.password && (
+                <Typography color="red-500">
+                  {formik.errors.password}
+                </Typography>
+              )}
             </div>
             <Button
               pill

@@ -7,17 +7,15 @@ import { Link } from 'react-router-dom'
 import { useFormik } from 'formik'
 
 export default function Register() {
-
   const formik = useFormik({
     initialValues: {
       name: '',
       email: '',
-      phone: ''
+      phone: '',
     },
     onSubmit: (values, { resetForm }) => {
-      console.log(values.email)
-      console.log(values.name)
-      console.log(values.phone)
+      const url = `/cadastro?nome=${values.name}&email=${values.email}&tel=${values.phone}`
+      window.location.href = url
       resetForm()
     }
   })
@@ -45,48 +43,48 @@ export default function Register() {
         </div>
 
         <form onSubmit={formik.handleSubmit}>
-          <div className='flex flex-col gap-4'>
-            <div className='flex flex-col gap-2'>
-              <Typography>
-                Razão Social:
-              </Typography>
-              <FormInput
-                placeholder="Insira o nome da empresa"
-                type='text'
-                name='name'
-                onChange={formik.handleChange}
-                value={formik.values.phone}
-              />
-              <Typography>
-                Email Comercial:
-              </Typography>
-              <FormInput
-                placeholder="Insira seu email comercial"
-                type='email'
-                name='email'
-                onChange={formik.handleChange}
-                value={formik.values.email}
-              />
-              <Typography>
-                Telefone comercial:
-              </Typography>
-              <FormInput
-                placeholder="Insira o número de telefone comercial"
-                type='text'
-                name='phone'
-                onChange={formik.handleChange}
-                value={formik.values.phone}
-              />
+            <div className='flex flex-col gap-4'>
+              <div className='flex flex-col gap-2'>
+                <Typography>
+                  Nome:
+                </Typography>
+                <FormInput
+                  placeholder="Insira seu nome"
+                  type='text'
+                  name='name'
+                  onChange={formik.handleChange}
+                  value={formik.values.name}
+                />
+                <Typography>
+                  Email:
+                </Typography>
+                <FormInput
+                  placeholder="Insira seu email"
+                  type='email'
+                  name='email'
+                  onChange={formik.handleChange}
+                  value={formik.values.email}
+                />
+                <Typography>
+                  Telefone:
+                </Typography>
+                <FormInput
+                  placeholder="Insira o número de telefone"
+                  type='text'
+                  name='phone'
+                  onChange={formik.handleChange}
+                  value={formik.values.phone}
+                />
+              </div>
+              <Button
+                pill
+                color="light"
+                type='submit'
+                className='text-white bg-blue flex items-center justify-center text-center text-base enabled:hover:bg-white enabled:hover:text-blue'
+              >
+                Continuar
+              </Button>
             </div>
-            <Button
-              pill
-              color="light"
-              className='text-white bg-blue flex items-center justify-center text-center text-base enabled:hover:bg-white enabled:hover:text-blue'
-              type='submit'
-            >
-              Continuar
-            </Button>
-          </div>
         </form>
       </Container>
     </div>

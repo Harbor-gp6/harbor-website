@@ -1,8 +1,12 @@
 import axios from 'axios'
 
 export function useLogin (email, password) {
-  axios.get('localhost:8080', {
+  axios.post('localhost:8080/usuarios/login', {
     email: email,
     password: password
+  }).then((response) => {
+    console.log(response.data)
+  }).catch((err) => {
+    alert(err)
   })
 }

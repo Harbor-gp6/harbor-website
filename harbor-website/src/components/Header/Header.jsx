@@ -32,6 +32,7 @@ export default function Header() {
             <Button
               pill
               color="gray"
+              href='/login'
               className='bg-transparent border-white text-center text-white flex items-center justify-center text-base enabled:hover:text-blue'
             >
               <span className='p-0'>
@@ -42,6 +43,7 @@ export default function Header() {
             <Button
               pill
               color="light"
+              href='/cadastrar'
               className='text-blue flex items-center justify-center text-center text-base enabled:hover:bg-white'
             >
               Cadastre-se
