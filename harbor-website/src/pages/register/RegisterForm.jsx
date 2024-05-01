@@ -17,8 +17,6 @@ export default function RegisterForm() {
   const surnameValue = searchParams.get('sobrenome')
   const emailValue = searchParams.get('email')
   const phoneValue = searchParams.get('tel')
-  // eslint-disable-next-line no-undef
-  const apiKey = process.env.HARBOR_API_KEY
 
   const formik = useFormik({
     initialValues: {
@@ -68,7 +66,7 @@ export default function RegisterForm() {
         }
       }, {
         headers: {
-          Authorization: apiKey
+          Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGRvZS5jb20iLCJpYXQiOjE3MTQ2MDM5MjcsImV4cCI6MTcxODIwMzkyN30.H64q4lwNVYtB3j0ccj7BJXPzVYhgKs5Hi5MIHU8eKJgapCVk44Or89aQVSU7b16UtpZJsDt-JrmoR_yPhbQoPQ'
         }
       }).then(() => {
         alert("Cadastro realizado com sucesso")
@@ -233,8 +231,8 @@ export default function RegisterForm() {
                 </div>
               )}
               {formInputs === 'enterpriseForm' && (
-                <div className='flex flex-col gap-4'>
-                  <div className='flex flex-col'>
+                <div className='flex flex-col gap-4 h-full'>
+                  <div className='flex flex-col h-full'>
                     <Heading
                       color='black'
                       size={5}
@@ -306,8 +304,8 @@ export default function RegisterForm() {
                 </div>
               )}
               {formInputs === 'corpAddressForm' && (
-                <div className='flex flex-col gap-4'>
-                  <div className='flex flex-col'>
+                <div className='flex flex-col gap-4 h-full'>
+                  <div className='flex flex-col h-full'>
                     <Heading
                       color='black'
                       size={5}
