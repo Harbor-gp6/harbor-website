@@ -40,7 +40,7 @@ export default function RegisterForm() {
       corpComplement: ''
     },
     onSubmit: (values, { resetForm }) => {
-      axios.post('http://localhost:8080/prestadores', {
+      axios.post('http://localhost:8080/usuarios', {
         nome: values.name,
         sobrenome: values.surname,
         telefone: values.phone,
