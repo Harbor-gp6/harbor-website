@@ -17,7 +17,7 @@ export default function Login() {
     },
     validationSchema: yup.object().shape({
       email: yup.string().email('Insira um E-mail válido').required('Insira um E-mail'),
-      password: yup.string().min(6,'A senha deve ter no mínimo 6 caracteres').required('Insira sua senha')
+      password: yup.string().min(8,'A senha deve ter no mínimo 8 caracteres').required('Insira sua senha')
     }),
     onSubmit: (values, { resetForm }) => {
       axios.post('http://localhost:8080/usuarios/login', {
