@@ -5,6 +5,7 @@ import { Heading } from '../../components/Heading/Heading'
 import { Typography } from '../../components/Typography/Typography'
 import { Link } from 'react-router-dom'
 import { useFormik } from 'formik'
+import * as yup from 'yup'
 
 export default function Register() {
   const formik = useFormik({
@@ -14,6 +15,12 @@ export default function Register() {
       email: '',
       phone: '',
     },
+    validationSchema: yup.object().shape({
+      name: yup.string().required("Insira um nome"),
+      surname: yup.string().required("Insira um sobrenome"),
+      email: yup.string().email("Insira um e-mail válido").required("Insira um e-mail"),
+      phone: yup.string().min(10, 'Insira no mínimo 10 digitos').max(11, 'Insira no máximo 11 Digitos'),
+    }),
     onSubmit: (values, { resetForm }) => {
       const url = `/cadastro?nome=${values.name}&sobrenome=${values.surname}&email=${values.email}&tel=${values.phone}`
       window.location.href = url
@@ -44,58 +51,78 @@ export default function Register() {
         </div>
 
         <form onSubmit={formik.handleSubmit}>
-            <div className='flex flex-col gap-4'>
-              <div className='flex flex-col gap-2'>
-                <Typography>
-                  Nome:
+          <div className='flex flex-col gap-4'>
+            <div className='flex flex-col gap-2'>
+              <Typography>
+                Nome:
+              </Typography>
+              <FormInput
+                placeholder="Insira seu nome"
+                type='text'
+                name='name'
+                onChange={formik.handleChange}
+                value={formik.values.name}
+              />
+              {formik.touched.name && formik.errors.name && (
+                <Typography color="red-500">
+                  {formik.errors.name}
                 </Typography>
-                <FormInput
-                  placeholder="Insira seu nome"
-                  type='text'
-                  name='name'
-                  onChange={formik.handleChange}
-                  value={formik.values.name}
-                />
-                <Typography>
-                  Sobrenome:
+              )}
+              <Typography>
+                Sobrenome:
+              </Typography>
+              <FormInput
+                placeholder="Insira seu sobrenome"
+                type='text'
+                name='surname'
+                onChange={formik.handleChange}
+                value={formik.values.surname}
+              />
+              {formik.touched.surname && formik.errors.surname && (
+                <Typography color="red-500">
+                  {formik.errors.surname}
                 </Typography>
-                <FormInput
-                  placeholder="Insira seu sobrenome"
-                  type='text'
-                  name='surname'
-                  onChange={formik.handleChange}
-                  value={formik.values.surname}
-                />
-                <Typography>
-                  Email:
+              )}
+              <Typography>
+                Email:
+              </Typography>
+              <FormInput
+                placeholder="Insira seu email"
+                type='email'
+                name='email'
+                onChange={formik.handleChange}
+                value={formik.values.email}
+              />
+              {formik.touched.email && formik.errors.email && (
+                <Typography color="red-500">
+                  {formik.errors.email}
                 </Typography>
-                <FormInput
-                  placeholder="Insira seu email"
-                  type='email'
-                  name='email'
-                  onChange={formik.handleChange}
-                  value={formik.values.email}
-                />
-                <Typography>
-                  Telefone:
+              )}
+              <Typography>
+                Telefone:
+              </Typography>
+              <FormInput
+                placeholder="Insira o número de telefone"
+                type='text'
+                name='phone'
+                onChange={formik.handleChange}
+                value={formik.values.phone}
+              />
+              {formik.touched.phone && formik.errors.phone && (
+                <Typography color="red-500">
+                  {formik.errors.phone}
                 </Typography>
-                <FormInput
-                  placeholder="Insira o número de telefone"
-                  type='text'
-                  name='phone'
-                  onChange={formik.handleChange}
-                  value={formik.values.phone}
-                />
-              </div>
-              <Button
-                pill
-                color="light"
-                type='submit'
-                className='text-white bg-blue flex items-center justify-center text-center text-base enabled:hover:bg-white enabled:hover:text-blue'
-              >
-                Continuar
-              </Button>
+              )}
             </div>
+            <Button
+              pill
+              color="light"
+              type='submit'
+              className='text-white bg-blue flex items-center justify-center text-center text-base enabled:hover:bg-white enabled:hover:text-blue'
+            >
+              Continuar
+            </Button>
+          </div>
         </form>
       </Container>
     </div>
