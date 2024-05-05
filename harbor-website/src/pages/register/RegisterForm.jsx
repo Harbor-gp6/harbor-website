@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Typography } from '../../components/Typography/Typography'
 import { SideNav } from './components/SideNav'
 import { Building2, CircleUserRound, MapPin } from 'lucide-react'
@@ -17,6 +17,28 @@ export default function RegisterForm() {
   const surnameValue = searchParams.get('sobrenome')
   const emailValue = searchParams.get('email')
   const phoneValue = searchParams.get('tel')
+
+  async function handleCEP(number) {
+    const getCEP = axios.get('http://localhost:8080/enderecos/busca', {
+      params: {
+        cep: number
+      }
+    }).then((response) => {
+      return response.data
+    }).catch(() => {
+      return null
+    })
+    return await getCEP
+  }
+
+
+  const [cepInfos, setCepInfos] = useState('')
+  const [addressData, setAddressData] = useState(cepInfos)
+
+  useEffect(() => {
+    setAddressData(cepInfos)
+  }, [cepInfos])
+
 
   const formik = useFormik({
     initialValues: {
@@ -55,10 +77,10 @@ export default function RegisterForm() {
           nomeFantasia: values.fantasyName,
           cnpj: values.cnpj,
           endereco: {
-            bairro: values.neighborhood,
-            logradouro: values.corpAddress,
-            cidade: values.corpCity,
-            estado: values.corpState,
+            bairro: addressData.bairro,
+            logradouro: addressData.rua,
+            cidade: addressData.cidade,
+            estado: addressData.estado,
             numero: values.corpNumber,
             cep: values.corpCep,
             complemento: values.corpComplement
@@ -77,6 +99,8 @@ export default function RegisterForm() {
       })
     }
   })
+
+  console.log(formik.values.corpAddress)
 
   return (
     <div className='w-screen h-screen flex'>
@@ -331,6 +355,9 @@ export default function RegisterForm() {
                       name='corpCep'
                       onChange={formik.handleChange}
                       value={formik.values.corpCep}
+                      onBlur={async () => {
+                        setCepInfos(await handleCEP(formik.values.corpCep))
+                      }}
                     />
                     <Typography color='black' textPosition='left'>
                       Estado:
@@ -340,7 +367,7 @@ export default function RegisterForm() {
                       type='text'
                       name='corpState'
                       onChange={formik.handleChange}
-                      value={formik.values.corpState}
+                      value={addressData.estado}
                     />
                     <Typography color='black' textPosition='left'>
                       Endereço:
@@ -350,7 +377,7 @@ export default function RegisterForm() {
                       type='text'
                       name='corpAddress'
                       onChange={formik.handleChange}
-                      value={formik.values.corpAddress}
+                      value={addressData.rua}
                     />
                     <Typography color='black' textPosition='left'>
                       Número:
@@ -370,7 +397,7 @@ export default function RegisterForm() {
                       type='text'
                       name='neighborhood'
                       onChange={formik.handleChange}
-                      value={formik.values.neighborhood}
+                      value={addressData.bairro}
                     />
                     <Typography color='black' textPosition='left'>
                       Cidade:
@@ -380,7 +407,7 @@ export default function RegisterForm() {
                       type='text'
                       name='corpCity'
                       onChange={formik.handleChange}
-                      value={formik.values.corpCity}
+                      value={addressData.cidade}
                     />
                     <Typography color='black' textPosition='left'>
                       Complemento:

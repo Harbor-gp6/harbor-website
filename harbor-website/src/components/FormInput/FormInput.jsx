@@ -10,7 +10,8 @@ export function FormInput ({
   onChange,
   onKeyDown,
   onInput,
-  type = 'text'
+  type = 'text',
+  onBlur
 }) {
   return (
     <input
@@ -22,6 +23,7 @@ export function FormInput ({
       disabled={disabled}
       onChange={onChange}
       onKeyDown={onKeyDown}
+      onBlur={onBlur}
       className={clsx(
         'rounded-xl',
         'p-3',
