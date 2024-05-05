@@ -23,10 +23,10 @@ export default function Login() {
       axios.post('http://localhost:8080/usuarios/login', {
         email: values.email,
         senha: values.password
-      }).then((response) => {
-        console.log(response.data)
+      }).then(() => {
+        alert("Login realizado com sucesso")
       }).catch((err) => {
-        alert(err)
+        alert(`Houve um erro: ${err}`)
       })
       resetForm()
     }
