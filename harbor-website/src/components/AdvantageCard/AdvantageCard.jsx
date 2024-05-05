@@ -5,7 +5,7 @@ export default function AdvantageCard({ leftImageSrc, rightImageSrc, title, desc
   return (
     <div className='flex gap-2 h-full items-center'>
       {leftImageSrc && (
-        <img src={leftImageSrc} className='h-36' />
+        <img src={leftImageSrc} className='lg:h-36 max-h-36' />
       )}
 
       <div className='flex flex-col gap-2'>
@@ -32,7 +32,7 @@ export default function AdvantageCard({ leftImageSrc, rightImageSrc, title, desc
       </div>
 
       {rightImageSrc && (
-        <img src={rightImageSrc} className='h-36' />
+        <img src={rightImageSrc} className='lg:h-36 max-h-36' />
       )}
     </div>
   )
