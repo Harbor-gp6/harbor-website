@@ -80,7 +80,7 @@ export default function RegisterForm() {
 
   return (
     <div className='w-screen h-screen flex'>
-      <div className='h-full'>
+      <div className='hidden lg:block h-full'>
         <SideNav>
           <button
             onClick={() => setFormInputs('personalData')}

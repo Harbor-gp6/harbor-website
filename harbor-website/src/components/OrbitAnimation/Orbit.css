@@ -3,27 +3,26 @@ body {
   }
 
   .fundo {
-    width: 800px;
-    height: 800px;
+    width: 50rem;
+    height: 50rem;
     background: radial-gradient(circle, #00bfff, #ff69b4);
     border-radius: 50%;
-    left: 25%;
-    top: 25%;
+    top: 5%;
     position: absolute;
   }
-  
+
   .nucleo {
     background-image: url(../../assets/Orbit/Group14.png);
     border-radius: 50%;
     margin-top: -50px;
     margin-left: -50px;
     left: 45%;
-    height: 140px;
+    height: 8.75rem;
     position: absolute;
     top: 45%;
-    width: 140px;
+    width: 8.75rem;
   }
-  
+
   .agenda {
     background-image: url(../../assets/Orbit/agenda.png);
     border-radius: 50px;
@@ -39,10 +38,10 @@ body {
   .financas {
     background-image: url(../../assets/Orbit/financas.png);
     border-radius: 50px;
-    margin-left: -90px; 
+    margin-left: -90px;
     margin-top: -330px;
     height: 160px;
-    left: 50%; 
+    left: 50%;
     position: absolute;
     top: 80%;
     width: 90px;
@@ -83,17 +82,17 @@ body {
     top: 15%;
     width: 90px;
   }
-  
+
   .orbita {
     border: 1px solid #38b6ff;
     border-radius: 50%;
     left: 40%;
-    height: 500px;
+    height: 31rem;
     margin-top: -230px;
     margin-left: -230px;
     position: absolute;
     top: 50%;
-    width: 500px;
+    width: 31rem;
     -webkit-animation: spin-right 10s linear infinite;
     -moz-animation: spin-right 10s linear infinite;
     -ms-animation: spin-right 10s linear infinite;
@@ -105,12 +104,12 @@ body {
     border: 0.5px solid #38b6ff;
     border-radius: 50%;
     left: 50%;
-    height: 250px;
+    height: 15.5rem;
     margin-top: -120px;
     margin-left: -120px;
     position: absolute;
     top: 50%;
-    width: 250px;
+    width: 15.5rem;
     -webkit-animation: spin-right 7s linear infinite;
     -moz-animation: spin-right 7s linear infinite;
     -ms-animation: spin-right 7s linear infinite;
@@ -122,22 +121,21 @@ body {
     border: 1px solid #38b6ff;
     border-radius: 50%;
     left: 30%;
-    height: 750px;
+    height: 47rem;
     margin-top: -230px;
     margin-left: -230px;
     position: absolute;
     top: 32%;
-    width: 750px;
+    width: 47rem;
     -webkit-animation: spin-right 10s linear infinite;
     -moz-animation: spin-right 10s linear infinite;
     -ms-animation: spin-right 10s linear infinite;
     -o-animation: spin-right 10s linear infinite;
     animation: spin-right 10s linear infinite;
   }
-  
+
   @keyframes spin-right {
     100% {
       -webkit-transform: rotate(360deg);
     }
   }
-  

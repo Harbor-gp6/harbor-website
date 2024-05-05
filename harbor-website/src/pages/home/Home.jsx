@@ -9,10 +9,10 @@ export default function HomePage() {
     return (
         <div className='flex flex-col'>
             <FirstSection />
+            <OrbitalSection />
             <AdvantagesSection />
             <CommentSection />
             <ClientCall />
-            <OrbitalSection />
             <FaqSection />
         </div>
     )
