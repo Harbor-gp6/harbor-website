@@ -1,21 +1,23 @@
-import { Container, Link } from '@mui/material'
+import { Link } from '@mui/material'
 import { Button } from 'flowbite-react'
 import headerLinks from '../../assets/headerLinks.json'
 import { noStyle } from '../../lib/StyleConsts'
+import { Container } from '../Container/Container'
 
 export default function Header() {
   return (
-    <div className="flex w-screen justify-between h-24 bg-blue px-20">
+    <div className="flex w-screen lg:justify-between h-24 bg-blue lg:px-20">
       <Container
         maxWidth="xl"
+        className='mx-auto'
       >
-        <div className='w-full h-full flex items-center justify-between gap-6'>
+        <div className='w-full h-full flex lg:items-center justify-between gap-6'>
           <div className='flex gap-6 items-center'>
             <Link href='/'>
               <img src="/images/logos/harborLogo.svg" alt="Logo da harbor" className='h-10' />
             </Link>
 
-            <div className='flex gap-4'>
+            <div className='hidden lg:flex gap-4'>
               {headerLinks.map((link, index) => (
                 <Button
                   key={index}
@@ -44,7 +46,7 @@ export default function Header() {
               pill
               color="light"
               href='/cadastrar'
-              className='text-blue flex items-center justify-center text-center text-base enabled:hover:bg-white'
+              className='text-blue hidden lg:flex items-center justify-center text-center text-base enabled:hover:bg-white'
             >
               Cadastre-se
             </Button>

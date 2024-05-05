@@ -6,9 +6,13 @@ import Wave from 'react-wavify'
 
 export default function FirstSection() {
   return (
-    <div className='flex w-screen bg-gradient-to-b from-blue to-blueEnd pt-24'>
-      <div className='flex flex-col gap-6 items-center w-full justify-center z-10'>
-        <Heading>
+    <div className='flex w-screen bg-gradient-to-b from-blue to-blueEnd pt-10 lg:pt-24'>
+      <div className='flex flex-col gap-10 items-center w-full justify-center z-10'>
+        <Heading className="hidden lg:block">
+          Em um oceano de desafios financeiros, navegue com segurança: <br /> Harbor, a sua rota para o sucesso.
+        </Heading>
+
+        <Heading size={3} className="block lg:hidden px-5">
           Em um oceano de desafios financeiros, navegue com segurança: <br /> Harbor, a sua rota para o sucesso.
         </Heading>
 
@@ -19,6 +23,8 @@ export default function FirstSection() {
         <Button
           pill
           color='light'
+          href='/cadastrar'
+          className='mt-4'
         >
           Comece a faturar agora
           <ArrowRight className='rounded-full bg-blueEnd ml-4 text-white' />

@@ -1,21 +1,21 @@
 import footerLinks from '../../assets/footer/footerLinks.json'
 import { Container } from '../Container/Container'
-import { Input } from '../Input/Input'
+import { FormInput } from '../FormInput/FormInput'
 import { Typography } from '../Typography/Typography'
 import { FooterLinks } from './components/FooterLinks'
 
 export function Footer() {
   return (
-    <div className='w-screen h-fit bg-white justify-center flex p-6'>
-      <Container className="flex justify-evenly" maxWidth="2xl">
-        <div className='flex w-full justify-between items-center'>
-          <div className='h-full w-full flex items-center justify-center'>
+    <div className='w-screen h-fit bg-white justify-center flex flex-col border-t border-blue lg:flex-row p-6 mt-10 lg:mt-0'>
+      <Container className="flex flex-col lg:flex-row mx-auto" maxWidth="xl">
+        <div className='flex flex-col lg:flex-row w-full justify-between items-center'>
+          <div className='h-full flex'>
             <a href="/" className='w-fit'>
               <img src="/images/logos/harborLogoAzul.svg" alt="Logo Harbor Caravela" className='h-full w-fit object-cover' />
             </a>
           </div>
 
-          <div className='flex w-full justify-evenly'>
+          <div className='flex flex-col gap-10 mt-6 lg:flex-row w-full justify-evenly'>
             {footerLinks.map((link, index) => (
               <FooterLinks
                 key={index}
@@ -25,7 +25,7 @@ export function Footer() {
             ))}
           </div>
 
-          <div className='flex flex-col w-full gap-4'>
+          <div className='hidden lg:flex flex-col w-full gap-4'>
             <Typography
               textSize='base'
               textPosition='left'
@@ -35,10 +35,17 @@ export function Footer() {
             </Typography>
 
             <div className='flex w-full gap-4'>
-              <Input className="w-full" />
-              <Input className="w-full" />
+              <FormInput
+                placeholder="Nome"
+              />
+              <FormInput
+                classname='w-full'
+                placeholder="E-mail"
+              />
             </div>
-            <Input />
+            <FormInput
+              placeholder="Assunto"
+            />
           </div>
         </div>
       </Container>
