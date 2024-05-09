@@ -164,7 +164,6 @@ export default function RegisterForm() {
                     <Typography
                       color="body"
                       textPosition="left"
-                      className="whitespace-nowrap"
                     >
                       Você usará este email para acessar o seu perfil do estabelecimento, onde poderá cadastrar suas filiais, funcionários e serviços.
                     </Typography>
