@@ -16,18 +16,6 @@ export default function Header() {
             <Link href='/'>
               <img src="/images/logos/harborLogo.svg" alt="Logo da harbor" className='h-10' />
             </Link>
-
-            <div className='hidden lg:flex gap-4'>
-              {headerLinks.map((link, index) => (
-                <Button
-                  key={index}
-                  href={link.ref}
-                  className={noStyle}
-                >
-                  {link.title}
-                </Button>
-              ))}
-            </div>
           </div>
 
           <div className='flex gap-4 items-center'>
