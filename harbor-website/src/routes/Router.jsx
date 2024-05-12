@@ -13,7 +13,7 @@ const Layout = () => {
 
   return (
     <>
-      {path !== "/login" && path !== '/cadastrar' && path !== '/cadastro' && <Header />}
+      {path === "/" && <Header />}
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/login' element={<Login />} />
@@ -21,7 +21,7 @@ const Layout = () => {
         <Route path='/cadastro' element={<RegisterForm />} />
         <Route path='/pedido' element={<Pedido />} />
       </Routes>
-      {path !== "/login" && path !== '/cadastrar' && path !== '/cadastro' && <Footer />}
+      {path === "/" && <Footer />}
     </>
   );
 };
