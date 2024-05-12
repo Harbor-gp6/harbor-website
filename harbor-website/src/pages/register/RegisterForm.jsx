@@ -156,7 +156,7 @@ export default function RegisterForm() {
         <div className='w-full min-h-full bg-gradient-to-b from-transparent to-white flex items-center justify-center relative'>
           <img src="/images/graphs/grafismos.svg" alt="Grafismos" className='absolute top-0 z-0 bg-gradient-to-b from-transparent to-white' />
 
-          <Container maxWidth="md" className="flex flex-col h-full gap-4 z-10">
+          <Container maxWidth="md" className="flex flex-col h-full gap-4 z-10 py-40">
             <form onSubmit={formik.handleSubmit}>
               {formInputs === 'personalData' && (
                 <div className='flex flex-col gap-4'>
