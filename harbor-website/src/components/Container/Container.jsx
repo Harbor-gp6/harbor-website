@@ -6,6 +6,7 @@ export function Container ({children, className, maxWidth, padding = 'px-4'}) {
     <div
       className={clsx(
         'container',
+        'mx-auto',
         padding || 'px-4',
         // https://tailwindcss.com/docs/max-width#constraining-to-your-breakpoints
         {
