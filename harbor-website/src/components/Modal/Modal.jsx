@@ -5,6 +5,8 @@ import { useState } from "react";
 
 export function CustomModal() {
   const [openModal, setOpenModal] = useState(false);
+  const [openFormModal, setOpenFormModal] = useState(false);
+
 
   return (
     <>

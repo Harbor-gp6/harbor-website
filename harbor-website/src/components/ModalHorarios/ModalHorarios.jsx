@@ -83,12 +83,7 @@ export function ModalHorarios() {
           </FlowbiteModal.Footer>
         </div>
       </FlowbiteModal>
-      {openFormModal && (
-        <ModalFormCliente
-          open={openFormModal}
-          onClose={() => setOpenFormModal(false)}
-        />
-      )}
+      
     </>
   );
 }
