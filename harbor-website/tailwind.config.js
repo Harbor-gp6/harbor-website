@@ -15,7 +15,8 @@ export default {
       colors: {
         'blue': "#2920F5",
         'blueEnd': "#7373FF",
-        'body': "#838383"
+        'body': "#838383",
+        'lightGray': '#D9D9D9'
       },
       backgroundImage: {
         'chamada': "url('src/assets/div.cta-section.svg')"
