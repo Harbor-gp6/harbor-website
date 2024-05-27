@@ -26,6 +26,7 @@ export function ModalHorarios() {
 
   return (
     <>
+      <ModalFormCliente open={openFormModal} />
       <Button className="h-fit w-full" onClick={() => setOpenModal(true)}>Ver horários</Button>
       <FlowbiteModal
         dismissible
@@ -67,7 +68,7 @@ export function ModalHorarios() {
             <div className="flex justify-between gap-2 w-full">
               <Typography className="w-full" color='black' textPosition="left" textSize= "base"> Forma de pagamento:</Typography>
               <div className="w-full flex flex-col justify-center">
-                <select id="countries" class="bg-gray-50 border p-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <select id="countries" className="bg-gray-50 border p-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                   <option value="credito" selected>Cartão de crédito</option>
                   <option value="debito">Cartão de débito</option>
                   <option value="dinheiro">Dinheiro</option>
@@ -83,7 +84,7 @@ export function ModalHorarios() {
           </FlowbiteModal.Footer>
         </div>
       </FlowbiteModal>
-      
+
     </>
   );
 }

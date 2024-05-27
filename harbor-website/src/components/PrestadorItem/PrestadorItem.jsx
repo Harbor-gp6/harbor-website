@@ -4,10 +4,10 @@ export function PrestadorItem({ image, nome, onClick }) {
     return (
         <button onClick={onClick} className="flex justify-center ">
             <div className="filial-item hover:bg-gray-300 h-auto w-fit flex justify-center flex-col p-7 rounded-xl ">
-                <img className="rounded-full" src={image} alt="" srcset="" />
+                <img className="rounded-full" src={image} alt="" />
                 <div className="text-start">
                 </div>
-                <Typography color='black' className='font-medium max-w-fit pt-3' textPosition="left" > {nome} </Typography>
+                <Typography color='black' className='font-medium max-w-fit pt-3' > {nome} </Typography>
             </div>
         </button>
     );

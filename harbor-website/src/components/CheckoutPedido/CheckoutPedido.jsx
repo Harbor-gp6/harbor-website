@@ -1,9 +1,5 @@
-
-"use client";
-
+/* eslint-disable react/prop-types */
 import { Banner, Button } from "flowbite-react";
-import { HiX } from "react-icons/hi";
-import { MdAnnouncement } from "react-icons/md";
 import { Typography } from "../Typography/Typography";
 import { Container } from "../Container/Container";
 
