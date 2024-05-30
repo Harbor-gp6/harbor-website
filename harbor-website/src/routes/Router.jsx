@@ -8,6 +8,7 @@ import RegisterForm from '../pages/register/RegisterForm'
 import Pedido from "../pages/pedido/Pedido"
 import Home from '../pages/dashboard/home/Home'
 import { InternSideNav } from '../components/InternSideNav/InternSideNav'
+import { InterNav } from "../components/InternNavbar/InternNavbar"
 
 const Layout = () => {
   const location = useLocation()
@@ -30,12 +31,16 @@ const Layout = () => {
         </>
       )}
       {isInternPage && (
-        <div className='w-screen h-screen flex overflow-y-hidden items-center justify-between'>
-          <InternSideNav />
+        <>
+        <InterNav />
+        <div className='w-screen h-screen flex overflow-x-hidden items-center justify-between '>
+          
+          <InternSideNav  />
           <Routes>
             <Route path='/dashboard/:idPrestador' element={<Home />} />
           </Routes>
         </div>
+        </>
       )}
     </>
   )
