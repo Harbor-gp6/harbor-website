@@ -1,5 +1,4 @@
 import { Typography } from "../Typography/Typography";
-import { ModalHorarios } from "../ModalHorarios/ModalHorarios";
 
 export function ServicoCard({servico, preco, horario, barbeiro, data}) {
     return (
