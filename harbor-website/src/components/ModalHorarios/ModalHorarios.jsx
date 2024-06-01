@@ -8,7 +8,7 @@ import { DiaItem } from "../DiaItem/DiaItem";
 import { ServicoCard } from "../ServicoCard/ServicoCard";
 import { ModalFormCliente } from "../ModalFormCliente/ModalFormCliente";
 
-export function ModalHorarios() {
+export function ModalHorarios({serviceTitle, servicePrice, serviceEmployee, serviceTime}) {
   const [openModal, setOpenModal] = useState(false);
   const [openFormModal, setOpenFormModal] = useState(false);
 
@@ -56,7 +56,7 @@ export function ModalHorarios() {
               ))}
             </div>
             <div className="space-y-6">
-              <ServicoCard servico="Corte de Cabelo" preco="50,00" horario="08:00" barbeiro="João Bobão" data="01/01/2022" />
+              <ServicoCard servico={serviceTitle} preco={servicePrice} horario="08:00" barbeiro={serviceEmployee.nome} data="01/01/2022" />
               <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
                 Adicionar mais serviços +
               </p>
@@ -64,7 +64,7 @@ export function ModalHorarios() {
           </FlowbiteModal.Body>
           <FlowbiteModal.Footer className="w-full flex flex-col text-left">
             <Typography className="w-full ml-2" color='black' textPosition="left" textSize= "base"> Total: R$40,00</Typography>
-            <Typography className="w-full ml-8" color='black' textPosition="left" textSize= "base"> Tempo médio: 120 min</Typography>
+            <Typography className="w-full ml-8" color='black' textPosition="left" textSize= "base"> Tempo médio: {serviceTime} min</Typography>
             <div className="flex justify-between gap-2 w-full">
               <Typography className="w-full" color='black' textPosition="left" textSize= "base"> Forma de pagamento:</Typography>
               <div className="w-full flex flex-col justify-center">

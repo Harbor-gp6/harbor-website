@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Typography } from "../../components/Typography/Typography"
 import { Container } from "../../components/Container/Container"
@@ -8,46 +9,49 @@ import { PrestadorItem } from "../../components/PrestadorItem/PrestadorItem"
 import { Carousel } from "flowbite-react"
 import { CustomModal } from "../../components/Modal/Modal"
 import { ServicoItem } from "../../components/ServicoItem/ServicoItem"
-import { Checkout } from "../../components/CheckoutPedido/CheckoutPedido"
+// import { Checkout } from "../../components/CheckoutPedido/CheckoutPedido"
 import { ModalFormCliente } from "../../components/ModalFormCliente/ModalFormCliente"
 import { useEnterprise } from '../../hooks/use-enterprise'
 import { getEmployeesByEnterprise } from '../../hooks/get-employees-by-enterprise'
+import { useLocation } from 'react-router-dom'
+import { getServicesByEnterprise } from '../../hooks/get-services-by-enterprise'
 
 export default function Pedido() {
     const [page, setPage] = useState('funcionariosPage')
     const [openFormModal, setOpenFormModal] = useState(false)
     const [enterprise, setEnterprise] = useState(null)
-    const [employees, setEmployees] = useState(null)
+    const [employees, setEmployees] = useState([])
+    const [selectedEmployee, setSelectedEmployee] = useState(null)
+    const [services, setServices] = useState([])
+    const location = useLocation()
+    const pathname = location.pathname
+    const splitedPathname = pathname.split("/")
+    const enterpriseId = Number(splitedPathname[2])
 
     useEffect(() => {
         async function fetchEnterprise() {
-            const getEnterprise = await useEnterprise(1)
+            const getEnterprise = await useEnterprise(enterpriseId)
             setEnterprise(getEnterprise.data)
         }
-        fetchEnterprise()
 
         async function fetchEmployees() {
-            const getEmployees = await getEmployeesByEnterprise(enterprise.id)
+            const getEmployees = await getEmployeesByEnterprise(enterpriseId)
             setEmployees(getEmployees.data)
         }
-        fetchEmployees()
-    }, [page])
 
-    console.log(enterprise)
+        async function fetchServices() {
+            const getServices = await getServicesByEnterprise(enterpriseId)
+            setServices(getServices.data)
+        }
+
+        fetchEnterprise()
+        fetchEmployees()
+        fetchServices()
+    }, [enterpriseId])
 
     return (
         <>
             <Container className="w-screen flex flex-col justify-center text-center items-center pt-6 pb-4">
-                {/* {page === 'regionPage' && (
-                    <div>
-                        <Heading color='black' size={4}> Seja Bem vindo </Heading>
-                        <Typography color='black'> Escolha a região mais próxima de você </Typography>
-                        <div className="filial-container gap-5 flex flex-col mt-6">
-                            <FilialItem image='https://fakeimg.pl/100x100/cccccc/909090' onClick={() => setPage('funcionariosPage')} title='Região' address='Rua Demerval da Fonseca 351' state='São Paulo - SP' />
-                            <FilialItem image='https://fakeimg.pl/100x100/cccccc/909090' title='Região' address='Rua Demerval da Fonseca 351' state='São Paulo - SP' />
-                        </div>
-                    </div>
-                )} */}
                 {page === 'funcionariosPage' && (
                     <div className="h-screen flex flex-col justify-center text-center items-center">
                         <Heading color='black' size={4}> Selecione o funcionário </Heading>
@@ -55,7 +59,14 @@ export default function Pedido() {
                         <div className="flex flex-wrap max-w-screen-lg justify-center">
                             {employees && employees.map((employee, index) => (
                                 <div key={index} className="filial-container gap-5 flex flex-col mt-6">
-                                    <PrestadorItem image='https://fakeimg.pl/100x100/cccccc/909090' nome={employee.nome} onClick={() => setPage('servicosPage')} />
+                                    <PrestadorItem
+                                        image='https://fakeimg.pl/100x100/cccccc/909090'
+                                        nome={employee.nome}
+                                        onClick={() => {
+                                            setPage('servicosPage')
+                                            setSelectedEmployee(employee)
+                                        }}
+                                    />
                                 </div>
                             ))}
                         </div>
@@ -99,9 +110,9 @@ export default function Pedido() {
                         </div>
 
                         <div>
-                            <Heading color='black' size={4} className="text-left pt-6 pb-1" > {enterprise.razaoSocial || 'Nome do estabelecimento'} </Heading>
+                            <Heading color='black' size={4} className="text-left pt-6 pb-1" > {enterprise?.razaoSocial || 'Nome do estabelecimento'} </Heading>
                             <Typography color='black' className="max-w-screen-lg tp-1" textSize="base" textPosition="left">
-                            {`${enterprise.endereco.logradouro}, nº ${enterprise.endereco.numero}, ${enterprise.endereco.bairro}, ${enterprise.endereco.complemento || ''}, ${enterprise.endereco.cep}, ${enterprise.endereco.cidade}-${enterprise.endereco.estado}`}
+                                {enterprise && `${enterprise.endereco.logradouro}, nº ${enterprise.endereco.numero}, ${enterprise.endereco.bairro}, ${enterprise.endereco.complemento || ''}, ${enterprise.endereco.cep}, ${enterprise.endereco.cidade}-${enterprise.endereco.estado}`}
                             </Typography>
                             <div className="text-left pt-3">
                                 <CustomModal />
@@ -110,11 +121,9 @@ export default function Pedido() {
 
                         <div>
                             <Heading color='black' size={4} className="text-left pt-8 pb-6" > Serviços </Heading>
-                            <ServicoItem title='Corte de cabelo' description='Corte de cabelo masculino' price='R$ 50,00' />
-                            <ServicoItem title='Corte de cabelo' description='Corte de cabelo masculino' price='R$ 50,00' />
-                            <ServicoItem title='Corte de cabelo' description='Corte de cabelo masculino' price='R$ 50,00' />
-                            <ServicoItem className='mb-10' title='Corte de cabelo' description='Corte de cabelo masculino' price='R$ 50,00' />
-                            <ServicoItem className='mb-10' title='Corte de cabelo' description='Corte de cabelo masculino' price='R$ 50,00' />
+                            {services.length > 0 && services.map((service, index) => (
+                                <ServicoItem title={service.descricaoServico} key={index} description='' price={new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(service.valorServico)} selectedEmployee={selectedEmployee} serviceTime={service.tempoMedioEmMinutos} />
+                            ))}
                         </div>
                         {/* <div className="">
                             <Checkout />
@@ -122,14 +131,6 @@ export default function Pedido() {
                     </div>
                 )}
             </Container>
-
-            {page === 'servicosPage' && (
-                <div className="flex fixed bottom-0 w-full justify-between border-y border-gray-500">
-                    <div className="flex flex-col gap-4 w-full">
-                        <Checkout onClick={setOpenFormModal} />
-                    </div>
-                </div>
-            )}
 
             {openFormModal && (
                 <ModalFormCliente
