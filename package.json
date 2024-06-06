@@ -1,0 +1,9 @@
+{
+  "name": "harbor-website",
+  "version": "0.0.1",
+  "private": "true",
+  "scripts": {
+    "start": "cd ./harbor-website && npm start",
+    "postinstall": "cd ./harbor-website && npm install"
+  }
+}
