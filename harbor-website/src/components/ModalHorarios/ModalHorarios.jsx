@@ -8,7 +8,7 @@ import { DiaItem } from "../DiaItem/DiaItem"
 import { ServicoCard } from "../ServicoCard/ServicoCard"
 import { ModalFormCliente } from "../ModalFormCliente/ModalFormCliente"
 
-export function ModalHorarios({ serviceEmployee, serviceTime, onChangePage, onSelectService, serviceList, totalValue, totalTime }) {
+export function ModalHorarios({ serviceEmployee, serviceTime, onChangePage, onSelectService, serviceList, totalValue, totalTime, nameValue, surnameValue, cpfValue, phoneValue, onChange, emailValue, onSubmit }) {
   const [openModal, setOpenModal] = useState(false)
   const [openFormModal, setOpenFormModal] = useState(false)
 
@@ -26,7 +26,23 @@ export function ModalHorarios({ serviceEmployee, serviceTime, onChangePage, onSe
 
   return (
     <>
-      <ModalFormCliente open={openFormModal} />
+      <ModalFormCliente
+        open={openFormModal}
+        totalTime={totalTime}
+        onClose={() => setOpenFormModal(false)}
+        totalValue={totalValue}
+        nameValue={nameValue}
+        cpfValue={cpfValue}
+        phoneValue={phoneValue}
+        surnameValue={surnameValue}
+        onChange={onChange}
+        emailValue={emailValue}
+        onSubmit={onSubmit}
+        onBack={() => {
+          setOpenFormModal(false)
+          setOpenModal(true)
+        }}
+      />
       <Button className="h-fit w-full" onClick={() => setOpenModal(true)}>Ver horários</Button>
       <FlowbiteModal
         dismissible
@@ -79,7 +95,7 @@ export function ModalHorarios({ serviceEmployee, serviceTime, onChangePage, onSe
           <FlowbiteModal.Footer className="w-full flex flex-col text-left">
             <Typography className="w-full ml-2" color='black' textPosition="left" textSize="base"> Total: {totalValue}</Typography>
             <Typography className="w-full ml-8" color='black' textPosition="left" textSize="base"> Tempo médio: {totalTime} min</Typography>
-            <div className="flex justify-between gap-2 w-full">
+            {/* <div className="flex justify-between gap-2 w-full">
               <Typography className="w-full" color='black' textPosition="left" textSize="base"> Forma de pagamento:</Typography>
               <div className="w-full flex flex-col justify-center">
                 <select id="countries" className="bg-gray-50 border p-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -90,12 +106,21 @@ export function ModalHorarios({ serviceEmployee, serviceTime, onChangePage, onSe
                 </select>
                 <Typography className="w-full font-thin " color='black' textPosition="left" textSize="sm"> (pagar no estabelecimento)</Typography>
               </div>
+            </div> */}
+            <div className='flex flex-col lg:flex-row gap-4'>
+              <Button className="w-full mt-4" onClick={() => {
+                setOpenModal(false)
+                onSelectService()
+              }}>
+                Adicionar
+              </Button>
+              <Button className="w-full mt-4" onClick={() => {
+                setOpenFormModal(true)
+                setOpenModal(false)
+              }}>
+                Continuar
+              </Button>
             </div>
-            <Button className="w-full mt-4" onClick={() => {
-              // setOpenFormModal(true);
-              setOpenModal(false)
-              onSelectService()
-            }}>Continuar</Button>
           </FlowbiteModal.Footer>
         </div>
       </FlowbiteModal>
