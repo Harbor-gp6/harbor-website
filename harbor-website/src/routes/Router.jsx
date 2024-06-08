@@ -25,7 +25,7 @@ const Layout = () => {
             <Route path='/login' element={<Login />} />
             <Route path='/cadastrar' element={<Register />} />
             <Route path='/cadastro' element={<RegisterForm />} />
-            <Route path='/pedido' element={<Pedido />} />
+            <Route path='/pedido/:idPedido' element={<Pedido />} />
           </Routes>
           {path === "/" && <Footer />}
         </>
@@ -34,7 +34,7 @@ const Layout = () => {
         <>
         <InterNav />
         <div className='w-screen h-screen flex overflow-x-hidden items-center justify-between '>
-          
+
           <InternSideNav  />
           <Routes>
             <Route path='/dashboard/:idPrestador' element={<Home />} />

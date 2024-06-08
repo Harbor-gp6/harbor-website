@@ -15,6 +15,8 @@ import { useEnterprise } from '../../hooks/use-enterprise'
 import { getEmployeesByEnterprise } from '../../hooks/get-employees-by-enterprise'
 import { useLocation } from 'react-router-dom'
 import { getServicesByEnterprise } from '../../hooks/get-services-by-enterprise'
+import axios from 'axios'
+import { useFormik } from 'formik'
 
 export default function Pedido() {
     const [page, setPage] = useState('funcionariosPage')
@@ -25,6 +27,10 @@ export default function Pedido() {
     const [services, setServices] = useState([])
     const location = useLocation()
     const pathname = location.pathname
+    const [selectedServices, setSelectedServices] = useState([])
+    const [selectedServicesId, setSelectedServicesId] = useState([])
+    const [valorTotalServico, setValorTotalServico] = useState(0)
+    const [tempoTotalServico, setTempoTotalServico] = useState(0)
     const splitedPathname = pathname.split("/")
     const enterpriseId = Number(splitedPathname[2])
 
@@ -48,6 +54,64 @@ export default function Pedido() {
         fetchEmployees()
         fetchServices()
     }, [enterpriseId])
+
+    const addService = (service) => {
+        const newService = service
+        setSelectedServices([...selectedServices, newService])
+        setSelectedServicesId([...selectedServicesId, newService.id])
+    }
+
+
+    useEffect(() => {
+        const total = selectedServices.reduce((total, service) => {
+            if (service) {
+                return total += service.valorServico
+            }
+            return total
+        }, 0)
+
+        const totalTempo = selectedServices.reduce((total, service) => {
+            if (service) {
+                return total += service.tempoMedioEmMinutos
+            }
+            return total
+        }, 0)
+        setValorTotalServico(total)
+        setTempoTotalServico(totalTempo)
+    }, [selectedServices])
+
+    const formik = useFormik({
+        initialValues: {
+            name: '',
+            surname: '',
+            cpf: '',
+            phone: '',
+            email: '',
+            services: [],
+            prestadorId: 0,
+            formaPagamento: 0
+        },
+        onSubmit: ((values, { resetForm }) => {
+            axios.post('http://localhost:8080/pedidos', {
+                cliente: {
+                    nome: values.name,
+                    sobrenome: values.surname,
+                    telefone: values.phone,
+                    cpf: values.cpf,
+                    email: values.email
+                },
+                dataAgendamento: new Date(),
+                servicos: selectedServicesId,
+                prestadorId: selectedEmployee.id,
+                formaPagamento: 1
+            }, {
+                headers: {
+                 Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGRvZS5jb20iLCJpYXQiOjE3MTQ2MDM5MjcsImV4cCI6MTcxODIwMzkyN30.H64q4lwNVYtB3j0ccj7BJXPzVYhgKs5Hi5MIHU8eKJgapCVk44Or89aQVSU7b16UtpZJsDt-JrmoR_yPhbQoPQ'
+                }
+            })
+            resetForm()
+        })
+    })
 
     return (
         <>
@@ -122,7 +186,24 @@ export default function Pedido() {
                         <div>
                             <Heading color='black' size={4} className="text-left pt-8 pb-6" > Serviços </Heading>
                             {services.length > 0 && services.map((service, index) => (
-                                <ServicoItem title={service.descricaoServico} key={index} description='' price={new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(service.valorServico)} selectedEmployee={selectedEmployee} serviceTime={service.tempoMedioEmMinutos} />
+                                <ServicoItem
+                                    title={service.descricaoServico}
+                                    key={index}
+                                    description=''
+                                    price={new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(service.valorServico)} selectedEmployee={selectedEmployee}
+                                    serviceTime={service.tempoMedioEmMinutos}
+                                    serviceList={selectedServices}
+                                    onSelectService={() => addService(service)}
+                                    totalValue={new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valorTotalServico)}
+                                    totalTime={tempoTotalServico}
+                                    cpfValue={formik.values.cpf}
+                                    nameValue={formik.values.name}
+                                    phoneValue={formik.values.phone}
+                                    surnameValue={formik.values.surname}
+                                    emailValue={formik.values.email}
+                                    onChange={formik.handleChange}
+                                    onSubmit={formik.handleSubmit}
+                                />
                             ))}
                         </div>
                         {/* <div className="">
