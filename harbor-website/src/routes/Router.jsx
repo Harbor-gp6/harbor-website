@@ -25,7 +25,7 @@ const Layout = () => {
             <Route path='/login' element={<Login />} />
             <Route path='/cadastrar' element={<Register />} />
             <Route path='/cadastro' element={<RegisterForm />} />
-            <Route path='/pedido/:idEmpresa' element={<Pedido />} />
+            <Route path='/pedido' element={<Pedido />} />
           </Routes>
           {path === "/" && <Footer />}
         </>
