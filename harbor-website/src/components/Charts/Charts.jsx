@@ -1,11 +1,12 @@
-import React from "react";
-import { Chart } from "react-google-charts";
+import { format } from 'date-fns'
+import React from "react"
+import { Chart } from "react-google-charts"
 
 // Dados mockados para diferentes componentes do dashboard
-const totalAtendimentos = 30;
-const receitaTotal = 4500; // em R$
-const novosClientes = 5;
-const clientesRecorrentes = 25;
+const totalAtendimentos = 30
+const receitaTotal = 4500 // em R$
+const novosClientes = 5
+const clientesRecorrentes = 25
 
 export const atendimentosPorHorarioData = [
   ["Horário", "Atendimentos"],
@@ -19,30 +20,73 @@ export const atendimentosPorHorarioData = [
   ["15:00", 4],
   ["16:00", 2],
   ["17:00", 2],
-];
+]
 
 export const atendimentosPorHorarioOptions = {
   title: "Atendimentos por Horário",
   hAxis: { title: "Horário" },
   vAxis: { title: "Atendimentos" },
   legend: { position: "bottom" },
-};
+}
 
 export const servicosPopularesData = [
   ["Serviço", "Quantidade"],
   ["Corte de Cabelo", 15],
   ["Barba", 10],
   ["Corte + Barba", 5],
-];
+]
 
 export const servicosPopularesOptions = {
   title: "Serviços Mais Populares",
   legend: { position: "bottom" },
-};
+}
 
 
 
-export function ChartCustom() {
+export function ChartCustom({ pedidosList }) {
+  const pedidosPorHora = {}
+
+  for (const pedido of pedidosList) {
+    const hora = pedido.dataAgendamento
+    // Se a hora já existe no objeto, incrementar a contagem, caso contrário, iniciar com 1
+    if (pedidosPorHora[hora]) {
+      pedidosPorHora[hora]++
+    } else {
+      pedidosPorHora[hora] = 1
+    }
+  }
+
+  const servicosObj = {};
+
+// Iterar sobre o array de serviços
+for (const servico of pedidosList) {
+    const nomeServico = servico.listaServico[0].servico.descricaoServico
+    // Se a hora já existe no objeto, incrementar a contagem, caso contrário, iniciar com 1
+    if (servicosObj[nomeServico]) {
+        servicosObj[nomeServico]++;
+    } else {
+        servicosObj[nomeServico] = 1;
+    }
+}
+
+// Converter o objeto em um array de arrays
+const servicosPopularesData = [
+  ["Serviço", "Quantidade"],
+    ...Object.keys(servicosObj).map(servico => [
+        servico,
+        servicosObj[servico]
+    ])
+]
+
+  const atendimentosPorHorarioData = [
+    ["Horário", "Atendimentos"],
+    ...Object.keys(pedidosPorHora).map(hora => [
+      format(new Date(hora).toISOString(), 'p'),
+      pedidosPorHora[hora]
+    ])
+  ]
+
+
   return (
     <div className="w-full h-full flex flex-col sm:flex justify-start items-start gap-4 justify-between items-center">
       <div className="w-full">
@@ -64,5 +108,5 @@ export function ChartCustom() {
         />
       </div>
     </div>
-  );
+  )
 }

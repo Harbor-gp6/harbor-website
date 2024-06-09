@@ -1,6 +1,10 @@
-import { useState } from 'react';
-import { Sidebar, Modal } from "flowbite-react";
-import { HiChartPie, HiInbox, HiUser, HiViewBoards } from "react-icons/hi";
+import { useEffect, useState } from 'react'
+import { Sidebar, Modal } from "flowbite-react"
+import { HiChartPie, HiInbox, HiUser, HiViewBoards } from "react-icons/hi"
+import { useLocation } from 'react-router-dom'
+import { format } from 'date-fns'
+import axios from 'axios'
+import { ServiceCard } from '../ServiceCard/ServiceCard'
 
 const ProviderCard = ({ name, lastName, role, rating, imgSrc }) => (
   <div className="p-4 bg-gray-800 rounded-lg shadow-lg text-white transition-transform transform hover:scale-105">
@@ -17,91 +21,85 @@ const ProviderCard = ({ name, lastName, role, rating, imgSrc }) => (
       </button>
     </div>
   </div>
-);
-
-
-
-
-const ServiceCard = ({ id, service, provider, time, client, phone, price, payment }) => (
-  <div className="space-y-4 p-6 bg-gray-800 rounded-lg shadow-lg text-white transition-transform transform hover:scale-105">
-    <div className="flex justify-between items-center">
-      <p className="text-sm font-bold">Pedido ID: {id}</p>
-      <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-green-400 transition">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-        </svg>
-      </button>
-    </div>
-    <div className="flex justify-between items-center">
-      <p className="font-semibold">Nome do Serviço:</p>
-      <p>{service}</p>
-    </div>
-    <div className="flex justify-between items-center">
-      <p className="font-semibold">Nome do Prestador:</p>
-      <p>{provider}</p>
-    </div>
-    <div className="flex justify-between items-center">
-      <p className="font-semibold">Horário:</p>
-      <p>{time}</p>
-    </div>
-    <div className="flex justify-between items-center">
-      <p className="font-semibold">Nome do Cliente:</p>
-      <p>{client}</p>
-    </div>
-    <div className="flex justify-between items-center">
-      <p className="font-semibold">Telefone do Cliente:</p>
-      <p>{phone}</p>
-    </div>
-    <div className="flex justify-between items-center">
-      <p className="font-semibold">Valor do Serviço:</p>
-      <p>{price}</p>
-    </div>
-    <div className="flex justify-between items-center">
-      <p className="font-semibold">Forma de Pagamento:</p>
-      <p>{payment}</p>
-    </div>
-  </div>
-);
+)
 
 export function InternSideNav() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isModalOpen2, setIsModalOpen2] = useState(false);
-  const [isModalOpen3, setIsModalOpen3] = useState(false);
+  const location = useLocation()
+  const pathname = location.pathname
+  const splitedPathname = pathname.split("/")
+  const employeeId = Number(splitedPathname[2])
+  const [data, setData] = useState([])
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen2, setIsModalOpen2] = useState(false)
+  const [isModalOpen3, setIsModalOpen3] = useState(false)
 
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [startDate, setStartDate] = useState('')
+  const [endDate, setEndDate] = useState('')
 
   const handleModalOpen = () => {
-    setIsModalOpen(true);
-  };
+    setIsModalOpen(true)
+  }
 
   const handleModalClose = () => {
-    setIsModalOpen(false);
-  };
+    setIsModalOpen(false)
+  }
 
   const handleModalOpen2 = () => {
-    setIsModalOpen2(true);
-  };
+    setIsModalOpen2(true)
+  }
 
   const handleModalClose2 = () => {
-    setIsModalOpen2(false);
-  };
+    setIsModalOpen2(false)
+  }
 
   const handleModalOpen3 = () => {
-    setIsModalOpen3(true);
-  };
+    setIsModalOpen3(true)
+  }
 
   const handleModalClose3 = () => {
-    setIsModalOpen3(false);
-  };
+    setIsModalOpen3(false)
+  }
 
   const handleStartDateChange = (event) => {
-    setStartDate(event.target.value);
-  };
+    setStartDate(event.target.value)
+  }
 
   const handleEndDateChange = (event) => {
-    setEndDate(event.target.value);
-  };
+    setEndDate(event.target.value)
+  }
+
+  useEffect(() => {
+    let isMounted = true
+
+    async function fetchEmployee() {
+      try {
+        const response = await axios.get(`http://localhost:8080/pedidos/prestador/${employeeId}`, {
+          headers: {
+            Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGRvZS5jb20iLCJpYXQiOjE3MTQ2MDM5MjcsImV4cCI6MTcxODIwMzkyN30.H64q4lwNVYtB3j0ccj7BJXPzVYhgKs5Hi5MIHU8eKJgapCVk44Or89aQVSU7b16UtpZJsDt-JrmoR_yPhbQoPQ'
+          }
+        })
+
+        if (isMounted) {
+          setData(response.data)
+          console.log('Employee data set:', response.data)
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
+    fetchEmployee()
+
+    return () => {
+      isMounted = false
+    }
+  }, [data, employeeId])
+
+  useEffect(() => {
+    console.log('Component rendered or employee state changed:', data)
+  })
+
+  const pedidosPendentes = data.filter((pedido) => (pedido.finalizado === false && format(new Date(pedido.dataAgendamento), 'PP') === format(new Date().toISOString(), 'PP')))
 
   return (
     <>
@@ -193,17 +191,23 @@ export function InternSideNav() {
         </Modal.Header>
         <Modal.Body>
           <div className='flex flex-col gap-6'>
-            {Array.from({ length: 3 }).map((_, index) => (
+            {pedidosPendentes.length === 0 && (
+              <div className='flex items-center justify-center w-full'>
+                Nenhum pedido pendente
+              </div>
+            )}
+            {pedidosPendentes.length > 0 && pedidosPendentes.map((pedido, index) => (
               <ServiceCard
                 key={index}
-                id={12345 + index}
-                service="Serviço Exemplo"
-                provider="Prestador Exemplo"
-                time="09:00 - 11:00"
-                client="Cliente Exemplo"
-                phone="(11) 99999-9999"
-                price="R$ 100,00"
-                payment="Cartão de Crédito"
+                id={pedido.id}
+                service={pedido.listaServico.map((servico) => (
+                  servico.servico.descricaoServico
+                ))}
+                provider={`${pedido.prestador.nome} ${pedido.prestador.sobrenome}`}
+                time={format(new Date(pedido.dataAgendamento).toISOString(), 'p')}
+                client={pedido.cliente}
+                price={new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(pedido.total)}
+                payment={pedido.formaPagamentoEnum}
               />
             ))}
           </div>
@@ -246,5 +250,5 @@ export function InternSideNav() {
       </Modal>
 
     </>
-  );
+  )
 }

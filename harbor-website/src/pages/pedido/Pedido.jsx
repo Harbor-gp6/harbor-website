@@ -92,24 +92,28 @@ export default function Pedido() {
             formaPagamento: 0
         },
         onSubmit: ((values, { resetForm }) => {
-            axios.post('http://localhost:8080/pedidos', {
-                cliente: {
-                    nome: values.name,
-                    sobrenome: values.surname,
-                    telefone: values.phone,
-                    cpf: values.cpf,
-                    email: values.email
-                },
-                dataAgendamento: new Date(),
-                servicos: selectedServicesId,
-                prestadorId: selectedEmployee.id,
-                formaPagamento: 1
-            }, {
-                headers: {
-                 Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGRvZS5jb20iLCJpYXQiOjE3MTQ2MDM5MjcsImV4cCI6MTcxODIwMzkyN30.H64q4lwNVYtB3j0ccj7BJXPzVYhgKs5Hi5MIHU8eKJgapCVk44Or89aQVSU7b16UtpZJsDt-JrmoR_yPhbQoPQ'
-                }
-            })
-            resetForm()
+            try {
+                axios.post('http://localhost:8080/pedidos', {
+                    cliente: {
+                        nome: values.name,
+                        sobrenome: values.surname,
+                        telefone: values.phone,
+                        cpf: values.cpf,
+                        email: values.email
+                    },
+                    dataAgendamento: new Date(),
+                    servicos: selectedServicesId,
+                    prestadorId: selectedEmployee.id,
+                    formaPagamento: 1
+                }, {
+                    headers: {
+                     Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGRvZS5jb20iLCJpYXQiOjE3MTQ2MDM5MjcsImV4cCI6MTcxODIwMzkyN30.H64q4lwNVYtB3j0ccj7BJXPzVYhgKs5Hi5MIHU8eKJgapCVk44Or89aQVSU7b16UtpZJsDt-JrmoR_yPhbQoPQ'
+                    }
+                })
+                resetForm()
+            } catch (error) {
+                alert(error)
+            }
         })
     })
 
