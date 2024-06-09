@@ -29,6 +29,8 @@ export function InternSideNav() {
   const splitedPathname = pathname.split("/")
   const employeeId = Number(splitedPathname[2])
   const [data, setData] = useState([])
+  const [empoloyee, setEmployee] = useState([])
+  const [empoloyees, setEmployees] = useState([])
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isModalOpen2, setIsModalOpen2] = useState(false)
   const [isModalOpen3, setIsModalOpen3] = useState(false)
@@ -68,10 +70,27 @@ export function InternSideNav() {
     setEndDate(event.target.value)
   }
 
+
   useEffect(() => {
     let isMounted = true
-
     async function fetchEmployee() {
+      try {
+        const response = await axios.get(`http://localhost:8080/usuarios/${employeeId}`, {
+          headers: {
+            Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGRvZS5jb20iLCJpYXQiOjE3MTQ2MDM5MjcsImV4cCI6MTcxODIwMzkyN30.H64q4lwNVYtB3j0ccj7BJXPzVYhgKs5Hi5MIHU8eKJgapCVk44Or89aQVSU7b16UtpZJsDt-JrmoR_yPhbQoPQ'
+          }
+        })
+
+        if (isMounted) {
+          setEmployee(response.data)
+          console.log('Employee data set:', response.data)
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
+    async function fetchEmployeeOrders() {
       try {
         const response = await axios.get(`http://localhost:8080/pedidos/prestador/${employeeId}`, {
           headers: {
@@ -89,17 +108,73 @@ export function InternSideNav() {
     }
 
     fetchEmployee()
+    fetchEmployeeOrders()
 
     return () => {
       isMounted = false
     }
-  }, [data, employeeId])
+  }, [data, employeeId,])
+
+  console.log(empoloyee)
 
   useEffect(() => {
     console.log('Component rendered or employee state changed:', data)
   })
 
+  useEffect(() => {
+    if (empoloyee != []) {
+      // eslint-disable-next-line no-inner-declarations
+      async function fetchEmployees() {
+        try {
+          const response = await axios.get(`http://localhost:8080/usuarios/empresa/${empoloyee.empresa.id}`, {
+            headers: {
+              Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGRvZS5jb20iLCJpYXQiOjE3MTQ2MDM5MjcsImV4cCI6MTcxODIwMzkyN30.H64q4lwNVYtB3j0ccj7BJXPzVYhgKs5Hi5MIHU8eKJgapCVk44Or89aQVSU7b16UtpZJsDt-JrmoR_yPhbQoPQ'
+            }
+          })
+
+          setEmployees(response.data)
+          console.log('Employee data set:', response.data)
+        } catch (err) {
+          console.log(err)
+        }
+      }
+
+      fetchEmployees()
+    }
+  }, [empoloyee])
+
+  async function handleDownloadRelatory() {
+    await axios.get(`http://localhost:8080/relatorios/servicos-por-prestador/csv/${empoloyee.empresa.id}?dtInicio=${startDate}&dtFim=${endDate}`, {
+      headers: {
+        Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGRvZS5jb20iLCJpYXQiOjE3MTQ2MDM5MjcsImV4cCI6MTcxODIwMzkyN30.H64q4lwNVYtB3j0ccj7BJXPzVYhgKs5Hi5MIHU8eKJgapCVk44Or89aQVSU7b16UtpZJsDt-JrmoR_yPhbQoPQ'
+      }
+    }).then(csvContent => {
+      // Cria um Blob a partir do conteúdo do CSV
+      var blob = new Blob([csvContent.data], { type: 'text/csv' })
+
+      // Cria um URL temporário para o Blob
+      var url = URL.createObjectURL(blob)
+
+      // Cria um elemento de âncora temporário
+      var tempLink = document.createElement('a')
+      tempLink.href = url
+      tempLink.download = 'arquivo.csv'  // Nome do arquivo que será baixado
+
+      // Adiciona o link ao documento
+      document.body.appendChild(tempLink)
+
+      // Simula um clique no link
+      tempLink.click()
+
+      // Remove o link do documento e libera o URL do Blob
+      document.body.removeChild(tempLink)
+      URL.revokeObjectURL(url)
+    })
+      .catch(error => console.error('Erro ao obter o conteúdo do CSV:', error))
+  }
+
   const pedidosPendentes = data.filter((pedido) => (pedido.finalizado === false && format(new Date(pedido.dataAgendamento), 'PP') === format(new Date().toISOString(), 'PP')))
+
 
   return (
     <>
@@ -160,15 +235,17 @@ export function InternSideNav() {
         </Modal.Header>
         <Modal.Body>
           <div className="space-y-2">
-            <p className="text-gray-800">Faturamento Bruto</p>
-            <p className="text-gray-800">Ticket Médio</p>
-            <p className="text-gray-800">Receita por Prestador de Serviço</p>
-            <p className="text-gray-800">Receita por Tipo de Serviço</p>
+            {/* <p className="text-gray-800">Faturamento Bruto</p>
+            <p className="text-gray-800">Ticket Médio</p> */}
+            <button onClick={handleDownloadRelatory}>
+              <p onClick={handleDownloadRelatory} className="text-gray-800">Receita por Prestador de Serviço</p>
+            </button>
+            {/* <p className="text-gray-800">Receita por Tipo de Serviço</p>
             <p className="text-gray-800">Receita por Produto Consumido</p>
             <p className="text-gray-800">Crescimento da Receita</p>
             <p className="text-gray-800">Receita por Cliente</p>
             <p className="text-gray-800">Receita por Data de Agendamento</p>
-            <p className="text-gray-800">Receita por Horário Ocupado</p>
+            <p className="text-gray-800">Receita por Horário Ocupado</p> */}
           </div>
         </Modal.Body>
         <Modal.Footer>
@@ -233,10 +310,9 @@ export function InternSideNav() {
         <Modal.Body>
           <div className="flex flex-col gap-6">
             {/* Aqui você pode adicionar quantos cards de prestadores de serviço quiser */}
-            <ProviderCard name="John" lastName="Doe" role="Barbeiro" imgSrc="https://via.placeholder.com/50" />
-            <ProviderCard name="Jane" lastName="Smith" role="Cabeleireira" imgSrc="https://via.placeholder.com/50" />
-            <ProviderCard name="Alice" lastName="Johnson" role="Esteticista" imgSrc="https://via.placeholder.com/50" />
-
+            {empoloyees.length > 0 && empoloyees.map((prestador, index) => (
+              <ProviderCard key={index} name={prestador.nome} lastName={prestador.sobrenome} role={prestador.cargo} imgSrc="https://via.placeholder.com/50" />
+            ))}
           </div>
         </Modal.Body>
         <Modal.Footer>
