@@ -34,6 +34,8 @@ export default function Pedido() {
     const splitedPathname = pathname.split("/")
     const enterpriseId = Number(splitedPathname[2])
 
+
+
     useEffect(() => {
         async function fetchEnterprise() {
             const getEnterprise = await useEnterprise(enterpriseId)
@@ -87,6 +89,9 @@ export default function Pedido() {
             cpf: '',
             phone: '',
             email: '',
+            date: '',
+            time: '',
+            payment: '1',
             services: [],
             prestadorId: 0,
             formaPagamento: 0
@@ -101,15 +106,18 @@ export default function Pedido() {
                         cpf: values.cpf,
                         email: values.email
                     },
-                    dataAgendamento: new Date(),
+                    dataAgendamento: new Date(`${values.date}T${values.time}:00`),
                     servicos: selectedServicesId,
                     prestadorId: selectedEmployee.id,
-                    formaPagamento: 1
+                    formaPagamento: values.payment
                 }, {
                     headers: {
-                     Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGRvZS5jb20iLCJpYXQiOjE3MTQ2MDM5MjcsImV4cCI6MTcxODIwMzkyN30.H64q4lwNVYtB3j0ccj7BJXPzVYhgKs5Hi5MIHU8eKJgapCVk44Or89aQVSU7b16UtpZJsDt-JrmoR_yPhbQoPQ'
+                        Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGRvZS5jb20iLCJpYXQiOjE3MTQ2MDM5MjcsImV4cCI6MTcxODIwMzkyN30.H64q4lwNVYtB3j0ccj7BJXPzVYhgKs5Hi5MIHU8eKJgapCVk44Or89aQVSU7b16UtpZJsDt-JrmoR_yPhbQoPQ'
                     }
                 })
+                alert("Pedido realizado com sucesso")
+                setSelectedServices([])
+                window.location.href = "/"
                 resetForm()
             } catch (error) {
                 alert(error)
@@ -207,6 +215,9 @@ export default function Pedido() {
                                     emailValue={formik.values.email}
                                     onChange={formik.handleChange}
                                     onSubmit={formik.handleSubmit}
+                                    dateValue={formik.values.date}
+                                    timeValue={formik.values.time}
+                                    paymentValue={formik.values.payment}
                                 />
                             ))}
                         </div>
