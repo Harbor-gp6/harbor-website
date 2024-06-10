@@ -7,7 +7,7 @@ import { HiMail } from "react-icons/hi";
 import { Typography } from "../Typography/Typography";
 
 
-export function ModalFormCliente({ open, onClose, totalTime, totalValue, onBack, nameValue, surnameValue, cpfValue, phoneValue, emailValue, onChange, onSubmit}) {
+export function ModalFormCliente({ open, onClose, totalTime, totalValue, onBack, nameValue, surnameValue, cpfValue, phoneValue, emailValue, onChange, onSubmit, paymentValue}) {
   const [openModal, setOpenModal] = useState(false);
 
   return (
@@ -58,11 +58,11 @@ export function ModalFormCliente({ open, onClose, totalTime, totalValue, onBack,
             <div className="flex justify-between gap-2 w-full">
               <Typography className="w-full" color='black' textPosition="left" textSize= "base"> Forma de pagamento:</Typography>
               <div className="w-full flex flex-col justify-center">
-                <select id="countries" className="bg-gray-50 border p-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                  <option value="1" selected>Cartão de crédito</option>
-                  <option value="2">Cartão de débito</option>
-                  <option value="3">Dinheiro</option>
-                  <option value="4">Pix</option>
+                <select id="payment" name='payment' value={paymentValue} onChange={onChange} className="bg-gray-50 border p-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                  <option value={1} selected>Cartão de crédito</option>
+                  <option value={2}>Cartão de débito</option>
+                  <option value={3}>Dinheiro</option>
+                  <option value={4}>Pix</option>
                 </select>
                 <Typography className="w-full font-thin " color='black' textPosition="left" textSize= "sm"> (pagar no estabelecimento)</Typography>
               </div>

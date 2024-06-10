@@ -3,26 +3,12 @@
 import { Button, Modal as FlowbiteModal } from "flowbite-react"
 import { useState } from "react"
 import { Typography } from "../Typography/Typography"
-import { HorarioItem } from "../../components/HorarioItem/HorarioItem"
-import { DiaItem } from "../DiaItem/DiaItem"
 import { ServicoCard } from "../ServicoCard/ServicoCard"
 import { ModalFormCliente } from "../ModalFormCliente/ModalFormCliente"
 
-export function ModalHorarios({ serviceEmployee, serviceTime, onChangePage, onSelectService, serviceList, totalValue, totalTime, nameValue, surnameValue, cpfValue, phoneValue, onChange, emailValue, onSubmit }) {
+export function ModalHorarios({ serviceEmployee, serviceTime, onChangePage, onSelectService, serviceList, totalValue, totalTime, nameValue, surnameValue, cpfValue, phoneValue, onChange, emailValue, onSubmit, dateValue, timeValue, paymentValue }) {
   const [openModal, setOpenModal] = useState(false)
   const [openFormModal, setOpenFormModal] = useState(false)
-
-  const dias = [
-    { semana: 'Seg', dia: '01' },
-    { semana: 'Ter', dia: '02' },
-    { semana: 'Qua', dia: '03' },
-    { semana: 'Qui', dia: '04' },
-    { semana: 'Sex', dia: '05' },
-    { semana: 'Sáb', dia: '06' },
-    { semana: 'Dom', dia: '07' },
-  ]
-
-  const horarios = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "13:30"]
 
   return (
     <>
@@ -38,6 +24,7 @@ export function ModalHorarios({ serviceEmployee, serviceTime, onChangePage, onSe
         onChange={onChange}
         emailValue={emailValue}
         onSubmit={onSubmit}
+        paymentValue={paymentValue}
         onBack={() => {
           setOpenFormModal(false)
           setOpenModal(true)
@@ -53,23 +40,15 @@ export function ModalHorarios({ serviceEmployee, serviceTime, onChangePage, onSe
         <div className="bg-white dark:bg-gray-800 w-full h-full p-6 overflow-auto">
           <FlowbiteModal.Header className="w-full">Horários</FlowbiteModal.Header>
           <FlowbiteModal.Body className="w-full h-full">
-            <div className="flex gap-2 overflow-auto">
-              {dias.map((dia, index) => (
-                <DiaItem
-                  key={index}
-                  semana={dia.semana}
-                  dia={dia.dia}
-                />
-              ))}
-            </div>
-            <div className="horariosContainer flex  gap-2 overflow-auto">
-              {horarios.map((horario, index) => (
-                <div key={index} className="inline-block">
-                  <HorarioItem
-                    horario={horario}
-                  />
-                </div>
-              ))}
+            <div className='flex flex-col gap-4'>
+              <div className="flex gap-2 overflow-auto">
+                <label htmlFor="date">Selecione a data:</label>
+                <input type="date" value={dateValue} onChange={onChange} id="date" name="date" />
+              </div>
+              <div className="horariosContainer flex  gap-2 overflow-auto">
+                <label htmlFor="time">Selecione o horário:</label>
+                <input type="time" value={timeValue} onChange={onChange} id="time" name="time" />
+              </div>
             </div>
             <div className="space-y-6">
               {serviceList.length === 0 && (
