@@ -285,6 +285,7 @@ export function InternSideNav() {
                 client={pedido.cliente}
                 price={new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(pedido.total)}
                 payment={pedido.formaPagamentoEnum}
+                onClose={() => setIsModalOpen2(false)}
               />
             ))}
           </div>

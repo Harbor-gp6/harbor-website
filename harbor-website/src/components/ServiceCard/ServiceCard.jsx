@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export function ServiceCard({ id, service, provider, time, client, price, payment }) {
+export function ServiceCard({ id, service, provider, time, client, price, payment, onClose }) {
 
   async function handleChangeStatus() {
     await axios.patch(`http://localhost:8080/pedidos/status/${id}` , {
@@ -10,6 +10,8 @@ export function ServiceCard({ id, service, provider, time, client, price, paymen
         Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGRvZS5jb20iLCJpYXQiOjE3MTQ2MDM5MjcsImV4cCI6MTcxODIwMzkyN30.H64q4lwNVYtB3j0ccj7BJXPzVYhgKs5Hi5MIHU8eKJgapCVk44Or89aQVSU7b16UtpZJsDt-JrmoR_yPhbQoPQ'
       }
     }).then(() => {
+      onClose()
+      window.location.reload()
       alert("Atendimento realizado com sucesso")
     }).catch((err) => {
       alert(err)

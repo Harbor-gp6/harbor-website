@@ -25,7 +25,7 @@ export default function Login() {
         senha: values.password
       }).then(() => {
         alert("Login realizado com sucesso")
-        window.location.href = "/"
+        window.location.href = "/dashboard/4"
       }).catch((err) => {
         alert(`Houve um erro: ${err}`)
       })

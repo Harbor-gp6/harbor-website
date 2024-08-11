@@ -7,9 +7,8 @@ import { Heading } from '../../components/Heading/Heading'
 import { useSearchParams } from 'react-router-dom'
 import { FormInput } from '../../components/FormInput/FormInput'
 import { useFormik } from 'formik'
-import { Button, Progress } from 'flowbite-react'
 import axios from 'axios'
-import * as yup from 'yup'
+import { Button, Progress } from 'flowbite-react'
 
 export default function RegisterForm() {
   const [formInputs, setFormInputs] = useState('personalData')
@@ -62,19 +61,6 @@ export default function RegisterForm() {
       corpNumber: '',
       corpComplement: ''
     },
-    validationSchema: yup.object().shape({
-      name: yup.string().required('Insira seu nome!'),
-      surname: yup.string().required('Insira seu sobrenome'),
-      phone: yup.string().min(10, 'Insira no mínimo 10 digitos').max(11, 'Insira no máximo 11 Digitos'),
-      email: yup.string().email("Insira um e-mail válido").required("Insira um e-mail"),
-      password: yup.string().min(8,'A senha deve ter no mínimo 8 caracteres').required('Insira sua senha').matches(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[\W_]).{1,}$/, 'Sua senha deve ter alguma letra maiúscula, alguma letra minuscula, um caracter especial e um número'),
-      role: yup.string().required("Insira seu cargo!"),
-      corpName: yup.string().required('Insira a Razão Social da sua empresa'),
-      cnpj: yup.string().required('Insira o CNPJ da sua empresa').matches(/^\d{2}\d{3}\d{3}000\d{1}\d{2}$/, 'Insira um CNPJ válido'),
-      corpPhone: yup.string().min(10, 'Insira no mínimo 10 digitos').max(11, 'Insira no máximo 11 Digitos'),
-      corpCep: yup.string().length(8).matches(/\d{8}/, 'Insira um CEP válido').required('Insira o CEP da empresa'),
-      corpNumber: yup.number().required('Insira o número da empresa')
-    }),
     onSubmit: (values, { resetForm }) => {
       axios.post('http://localhost:8080/usuarios', {
         nome: values.name,
@@ -156,7 +142,7 @@ export default function RegisterForm() {
         <div className='w-full min-h-full bg-gradient-to-b from-transparent to-white flex items-center justify-center relative'>
           <img src="/images/graphs/grafismos.svg" alt="Grafismos" className='absolute top-0 z-0 bg-gradient-to-b from-transparent to-white' />
 
-          <Container maxWidth="md" className="flex flex-col h-full gap-4 z-10 py-40">
+          <Container maxWidth="md" className="flex flex-col h-full gap-4 z-10">
             <form onSubmit={formik.handleSubmit}>
               {formInputs === 'personalData' && (
                 <div className='flex flex-col gap-4'>
@@ -178,6 +164,7 @@ export default function RegisterForm() {
                     <Typography
                       color="body"
                       textPosition="left"
+                      className="whitespace-nowrap"
                     >
                       Você usará este email para acessar o seu perfil do estabelecimento, onde poderá cadastrar suas filiais, funcionários e serviços.
                     </Typography>
@@ -193,11 +180,6 @@ export default function RegisterForm() {
                       onChange={formik.handleChange}
                       value={formik.values.name}
                     />
-                    {formik.touched.name && formik.errors.name && (
-                      <Typography color="red-500">
-                        {formik.errors.name}
-                      </Typography>
-                    )}
                     <Typography color="black" textPosition='left'>
                       Sobrenome:
                     </Typography>
@@ -208,11 +190,6 @@ export default function RegisterForm() {
                       onChange={formik.handleChange}
                       value={formik.values.surname}
                     />
-                    {formik.touched.surname && formik.errors.surname && (
-                      <Typography color="red-500">
-                        {formik.errors.surname}
-                      </Typography>
-                    )}
                     <Typography color="black" textPosition='left'>
                       CPF:
                     </Typography>
@@ -223,11 +200,6 @@ export default function RegisterForm() {
                       onChange={formik.handleChange}
                       value={formik.values.cpf}
                     />
-                    {formik.touched.cpf && formik.errors.cpf && (
-                      <Typography color="red-500">
-                        {formik.errors.cpf}
-                      </Typography>
-                    )}
                     <Typography color="black" textPosition='left'>
                       Telefone:
                     </Typography>
@@ -238,11 +210,6 @@ export default function RegisterForm() {
                       onChange={formik.handleChange}
                       value={formik.values.phone}
                     />
-                    {formik.touched.phone && formik.errors.phone && (
-                      <Typography color="red-500">
-                        {formik.errors.phone}
-                      </Typography>
-                    )}
                     <Typography color="black" textPosition='left'>
                       Cargo:
                     </Typography>
@@ -253,11 +220,6 @@ export default function RegisterForm() {
                       onChange={formik.handleChange}
                       value={formik.values.role}
                     />
-                    {formik.touched.role && formik.errors.role && (
-                      <Typography color="red-500">
-                        {formik.errors.role}
-                      </Typography>
-                    )}
                     <Typography color="black" textPosition='left'>
                       Email:
                     </Typography>
@@ -268,11 +230,6 @@ export default function RegisterForm() {
                       onChange={formik.handleChange}
                       value={formik.values.email}
                     />
-                    {formik.touched.email && formik.errors.email && (
-                      <Typography color="red-500">
-                        {formik.errors.email}
-                      </Typography>
-                    )}
                     <Typography color="black" textPosition='left'>
                       Senha:
                     </Typography>
@@ -283,11 +240,6 @@ export default function RegisterForm() {
                       onChange={formik.handleChange}
                       value={formik.values.password}
                     />
-                    {formik.touched.password && formik.errors.password && (
-                      <Typography color="red-500">
-                        {formik.errors.password}
-                      </Typography>
-                    )}
                   </div>
                   <div className='flex flex-col w-full'>
                     <Progress progress={33} color='indigo' />
@@ -331,11 +283,6 @@ export default function RegisterForm() {
                       onChange={formik.handleChange}
                       value={formik.values.corpName}
                     />
-                    {formik.touched.corpName && formik.errors.corpName && (
-                      <Typography color="red-500">
-                        {formik.errors.corpName}
-                      </Typography>
-                    )}
                     <Typography color="black" textPosition='left'>
                       Nome Fantasia:
                     </Typography>
@@ -346,11 +293,6 @@ export default function RegisterForm() {
                       onChange={formik.handleChange}
                       value={formik.values.fantasyName}
                     />
-                    {formik.touched.fantasyName && formik.errors.fantasyName && (
-                      <Typography color="red-500">
-                        {formik.errors.fantasyName}
-                      </Typography>
-                    )}
                     <Typography color="black" textPosition='left'>
                       CNPJ:
                     </Typography>
@@ -361,11 +303,6 @@ export default function RegisterForm() {
                       onChange={formik.handleChange}
                       value={formik.values.cnpj}
                     />
-                    {formik.touched.cnpj && formik.errors.cnpj && (
-                      <Typography color="red-500">
-                        {formik.errors.cnpj}
-                      </Typography>
-                    )}
                     <Typography color="black" textPosition='left'>
                       Telefone comercial:
                     </Typography>
@@ -376,11 +313,6 @@ export default function RegisterForm() {
                       onChange={formik.handleChange}
                       value={formik.values.corpPhone}
                     />
-                    {formik.touched.corpPhone && formik.errors.corpPhone && (
-                      <Typography color="red-500">
-                        {formik.errors.corpPhone}
-                      </Typography>
-                    )}
                   </div>
                   <div className='flex flex-col w-full'>
                     <Progress progress={66} color='indigo' />
@@ -427,11 +359,6 @@ export default function RegisterForm() {
                         setCepInfos(await handleCEP(formik.values.corpCep))
                       }}
                     />
-                    {formik.touched.corpCep && formik.errors.corpCep && (
-                      <Typography color="red-500">
-                        {formik.errors.corpCep}
-                      </Typography>
-                    )}
                     <Typography color='black' textPosition='left'>
                       Estado:
                     </Typography>
@@ -462,11 +389,6 @@ export default function RegisterForm() {
                       onChange={formik.handleChange}
                       value={formik.values.corpNumber}
                     />
-                    {formik.touched.corpNumber && formik.errors.corpNumber && (
-                      <Typography color="red-500">
-                        {formik.errors.corpNumber}
-                      </Typography>
-                    )}
                     <Typography color='black' textPosition='left'>
                       Bairro:
                     </Typography>
