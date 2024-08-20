@@ -77,7 +77,7 @@ export function InternSideNav() {
       try {
         const response = await axios.get(`http://localhost:8080/usuarios/${employeeId}`, {
           headers: {
-            Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGRvZS5jb20iLCJpYXQiOjE3MTQ2MDM5MjcsImV4cCI6MTcxODIwMzkyN30.H64q4lwNVYtB3j0ccj7BJXPzVYhgKs5Hi5MIHU8eKJgapCVk44Or89aQVSU7b16UtpZJsDt-JrmoR_yPhbQoPQ'
+            Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGRvZS5jb20iLCJpYXQiOjE3MjQxODkxNDcsImV4cCI6MTcyNzc4OTE0N30.55qgcfoFZFwvTNB4MvKWoz2yziWtHad1tMZRaTItu1r8S0PKhvzctr1iNB-BnHQvCCG9iDmE7pf0ZWA1_Ye3hw'
           }
         })
 
@@ -94,7 +94,7 @@ export function InternSideNav() {
       try {
         const response = await axios.get(`http://localhost:8080/pedidos/prestador/${employeeId}`, {
           headers: {
-            Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGRvZS5jb20iLCJpYXQiOjE3MTQ2MDM5MjcsImV4cCI6MTcxODIwMzkyN30.H64q4lwNVYtB3j0ccj7BJXPzVYhgKs5Hi5MIHU8eKJgapCVk44Or89aQVSU7b16UtpZJsDt-JrmoR_yPhbQoPQ'
+            Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGRvZS5jb20iLCJpYXQiOjE3MjQxODkxNDcsImV4cCI6MTcyNzc4OTE0N30.55qgcfoFZFwvTNB4MvKWoz2yziWtHad1tMZRaTItu1r8S0PKhvzctr1iNB-BnHQvCCG9iDmE7pf0ZWA1_Ye3hw'
           }
         })
 
@@ -128,7 +128,7 @@ export function InternSideNav() {
         try {
           const response = await axios.get(`http://localhost:8080/usuarios/empresa/${empoloyee.empresa.id}`, {
             headers: {
-              Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGRvZS5jb20iLCJpYXQiOjE3MTQ2MDM5MjcsImV4cCI6MTcxODIwMzkyN30.H64q4lwNVYtB3j0ccj7BJXPzVYhgKs5Hi5MIHU8eKJgapCVk44Or89aQVSU7b16UtpZJsDt-JrmoR_yPhbQoPQ'
+              Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGRvZS5jb20iLCJpYXQiOjE3MjQxODkxNDcsImV4cCI6MTcyNzc4OTE0N30.55qgcfoFZFwvTNB4MvKWoz2yziWtHad1tMZRaTItu1r8S0PKhvzctr1iNB-BnHQvCCG9iDmE7pf0ZWA1_Ye3hw'
             }
           })
 
@@ -146,7 +146,7 @@ export function InternSideNav() {
   async function handleDownloadRelatory() {
     await axios.get(`http://localhost:8080/relatorios/servicos-por-prestador/csv/${empoloyee.empresa.id}?dtInicio=${startDate}&dtFim=${endDate}`, {
       headers: {
-        Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGRvZS5jb20iLCJpYXQiOjE3MTQ2MDM5MjcsImV4cCI6MTcxODIwMzkyN30.H64q4lwNVYtB3j0ccj7BJXPzVYhgKs5Hi5MIHU8eKJgapCVk44Or89aQVSU7b16UtpZJsDt-JrmoR_yPhbQoPQ'
+        Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGRvZS5jb20iLCJpYXQiOjE3MjQxODkxNDcsImV4cCI6MTcyNzc4OTE0N30.55qgcfoFZFwvTNB4MvKWoz2yziWtHad1tMZRaTItu1r8S0PKhvzctr1iNB-BnHQvCCG9iDmE7pf0ZWA1_Ye3hw'
       }
     }).then(csvContent => {
       // Cria um Blob a partir do conteúdo do CSV
@@ -173,7 +173,9 @@ export function InternSideNav() {
       .catch(error => console.error('Erro ao obter o conteúdo do CSV:', error))
   }
 
-  const pedidosPendentes = data.filter((pedido) => (pedido.finalizado === false && format(new Date(pedido.dataAgendamento), 'PP') === format(new Date().toISOString(), 'PP')))
+  const pedidosPendentes = data.filter((pedido) => (pedido.finalizado === false))
+
+  console.log(pedidosPendentes)
 
 
   return (
@@ -281,7 +283,7 @@ export function InternSideNav() {
                   servico.servico.descricaoServico
                 ))}
                 provider={`${pedido.prestador.nome} ${pedido.prestador.sobrenome}`}
-                time={format(new Date(pedido.dataAgendamento).toISOString(), 'p')}
+                time={format(new Date(pedido.dataAgendamento).toISOString(), 'PP')}
                 client={pedido.cliente}
                 price={new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(pedido.total)}
                 payment={pedido.formaPagamentoEnum}
