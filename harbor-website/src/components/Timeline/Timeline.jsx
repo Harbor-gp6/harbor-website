@@ -8,11 +8,11 @@ export function TimelineCustom({ pedidosList }) {
   return (
     <Timeline>
       <h1 className="text-xl pb-5 flex justify-center">
-        Atendimentos (Hoje)
+        Atendimentos
       </h1>
       {pedidosList.length === 0 && (
         <div className='flex w-full items-center justify-center'>
-          Nenhum atendimento realizado hoje
+          Nenhum atendimento realizado
         </div>
       )}
       {pedidosList.length > 0 && pedidosList.map((pedido, index) => (

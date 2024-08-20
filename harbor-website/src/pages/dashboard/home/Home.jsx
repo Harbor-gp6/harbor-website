@@ -5,7 +5,7 @@ import { ChartCustom } from '../../../components/Charts/Charts'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useLocation } from 'react-router-dom'
-import { format } from 'date-fns'
+// import { format } from 'date-fns'
 
 export default function Home() {
   const location = useLocation()
@@ -23,7 +23,7 @@ export default function Home() {
       try {
         const response = await axios.get(`http://localhost:8080/pedidos/prestador/${employeeId}`, {
           headers: {
-            Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGRvZS5jb20iLCJpYXQiOjE3MTQ2MDM5MjcsImV4cCI6MTcxODIwMzkyN30.H64q4lwNVYtB3j0ccj7BJXPzVYhgKs5Hi5MIHU8eKJgapCVk44Or89aQVSU7b16UtpZJsDt-JrmoR_yPhbQoPQ'
+            Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGRvZS5jb20iLCJpYXQiOjE3MjQxODkxNDcsImV4cCI6MTcyNzc4OTE0N30.55qgcfoFZFwvTNB4MvKWoz2yziWtHad1tMZRaTItu1r8S0PKhvzctr1iNB-BnHQvCCG9iDmE7pf0ZWA1_Ye3hw'
           }
         })
 
@@ -46,7 +46,7 @@ export default function Home() {
       try {
         const response = await axios.get(`http://localhost:8080/relatorios/faturamento-bruto/${employeeId}?dataInicio=${dataAtualFormatada}&dataFim=${dataFuturaFormatada}`, {
           headers: {
-            Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGRvZS5jb20iLCJpYXQiOjE3MTQ2MDM5MjcsImV4cCI6MTcxODIwMzkyN30.H64q4lwNVYtB3j0ccj7BJXPzVYhgKs5Hi5MIHU8eKJgapCVk44Or89aQVSU7b16UtpZJsDt-JrmoR_yPhbQoPQ'
+            Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGRvZS5jb20iLCJpYXQiOjE3MjQxODkxNDcsImV4cCI6MTcyNzc4OTE0N30.55qgcfoFZFwvTNB4MvKWoz2yziWtHad1tMZRaTItu1r8S0PKhvzctr1iNB-BnHQvCCG9iDmE7pf0ZWA1_Ye3hw'
           }
         })
 
@@ -69,7 +69,7 @@ export default function Home() {
       try {
         const response = await axios.get(`http://localhost:8080/relatorios/faturamento-bruto/${employeeId}?dataInicio=${dataAtualFormatada}&dataFim=${dataAtualFormatada}`, {
           headers: {
-            Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGRvZS5jb20iLCJpYXQiOjE3MTQ2MDM5MjcsImV4cCI6MTcxODIwMzkyN30.H64q4lwNVYtB3j0ccj7BJXPzVYhgKs5Hi5MIHU8eKJgapCVk44Or89aQVSU7b16UtpZJsDt-JrmoR_yPhbQoPQ'
+            Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGRvZS5jb20iLCJpYXQiOjE3MjQxODkxNDcsImV4cCI6MTcyNzc4OTE0N30.55qgcfoFZFwvTNB4MvKWoz2yziWtHad1tMZRaTItu1r8S0PKhvzctr1iNB-BnHQvCCG9iDmE7pf0ZWA1_Ye3hw'
           }
         })
 
@@ -96,8 +96,9 @@ export default function Home() {
   })
 
   const pedidosAtendidos = data.filter((pedido) => pedido.finalizado === true)
-  const pedidosPendentes = data.filter((pedido) => (pedido.finalizado === false && format(new Date(pedido.dataAgendamento), 'PP') === format(new Date().toISOString(), 'PP') ))
-  const pedidosHoje = pedidosAtendidos.filter((pedido) => format(new Date(pedido.dataAgendamento), 'PP') === format(new Date().toISOString(), 'PP'))
+  const ultimos = pedidosAtendidos.sort((a, b) => new Date(b.dataAgendamento) - new Date(a.dataAgendamento)).slice(0, 3)
+  const pedidosPendentes = data.filter((pedido) => (pedido.finalizado === false ))
+  // const pedidosHoje = pedidosAtendidos.filter((pedido) => format(new Date(pedido.dataAgendamento), 'PP') === format(new Date().toISOString(), 'PP'))
 
   return (
     <div className="w-full h-full mb-20 p-0 bg-gray-200 pt-10 rounded-xl">
@@ -125,7 +126,7 @@ export default function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="bg-white p-6 rounded-lg shadow-md overflow-y-auto">
             <Typography variant="h5" className="text-gray-800 font-semibold mb-4">Timeline</Typography>
-            <TimelineCustom pedidosList={pedidosHoje} />
+            <TimelineCustom pedidosList={ultimos} />
           </div>
           <div className="bg-white p-6 rounded-lg shadow-md flex justify-center">
             <PieChartCustom />

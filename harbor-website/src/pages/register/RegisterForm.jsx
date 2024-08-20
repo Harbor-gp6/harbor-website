@@ -69,9 +69,7 @@ export default function RegisterForm() {
         cpf: values.cpf,
         email: values.email,
         senha: values.password,
-        cargo: {
-          nomeCargo: values.role
-        },
+        cargo: "ADMIN",
         empresa: {
           razaoSocial: values.corpName,
           nomeFantasia: values.fantasyName,
@@ -88,7 +86,7 @@ export default function RegisterForm() {
         }
       }, {
         headers: {
-          Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGRvZS5jb20iLCJpYXQiOjE3MTQ2MDM5MjcsImV4cCI6MTcxODIwMzkyN30.H64q4lwNVYtB3j0ccj7BJXPzVYhgKs5Hi5MIHU8eKJgapCVk44Or89aQVSU7b16UtpZJsDt-JrmoR_yPhbQoPQ'
+          Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGRvZS5jb20iLCJpYXQiOjE3MjQxODkxNDcsImV4cCI6MTcyNzc4OTE0N30.55qgcfoFZFwvTNB4MvKWoz2yziWtHad1tMZRaTItu1r8S0PKhvzctr1iNB-BnHQvCCG9iDmE7pf0ZWA1_Ye3hw'
         }
       }).then(() => {
         alert("Cadastro realizado com sucesso")
